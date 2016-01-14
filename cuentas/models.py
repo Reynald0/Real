@@ -8,7 +8,7 @@ from django.utils import timezone
 class Alumno(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     no_control = models.IntegerField()
-    nombre = models.CharField(max_length=50)
+    nombre = models.CharField(max_length=51)
     apellido = models.CharField(max_length=80)
     edad = models.IntegerField()
     carrera = models.CharField(max_length=90)
