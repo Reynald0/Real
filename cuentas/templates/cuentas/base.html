@@ -1,0 +1,63 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<!-- Website template by freewebsitetemplates.com -->
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>REALBI</title>
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+
+	<!-- jQuery and Bootstrap JS -->
+	<script type="text/javascript" src="{% static 'js/jquery-1.12.0.min.js'%}"></script>
+	<script type="text/javascript" src="{% static 'js/bootstrap.min.js'%}"></script>
+
+	<!-- BootstrapValidator -->
+	<script type="text/javascript" src="{% static 'js/validator.min.js'%}"></script>
+	<!--[if IE]>
+		<link rel="stylesheet" href="css/ie.css" type="text/css" charset="utf-8">
+	<![endif]-->
+</head>
+<body>
+	<div id="page">
+		<div id="header">
+			<a href="{% url 'inicio' %}" id="logo"><img src="{% static 'images/logo.png' %}" alt="LOGO"></a>
+			<ul id="navigation">
+				<li><a href="{% url 'inicio' %}" title="Inicio"></a></li>
+				<li><a href="{% url 'acerca' %}">Acerca</a></li>
+				<!--li><a href="#">Procuto</a></li>
+				<li><a href="#">Servicios</a></li>
+				<li><a href="#">Soluciones</a></li>
+				<li><a href="#">Blog</a></li-->
+				<li><a href="{% url 'contacto' %}">Contacto</a></li>
+				{% if user.is_authenticated %} <!--Usuario logeado -->
+					<li><a href="{% url 'noticia' %}">Noticias</a></li>
+					<li><a href="{% url 'lista_alumnos' %}">Lista</a></li>
+					<li><a href="{% url 'logout_alumno' %}">Salir</a></li>
+				{% else %}
+					<li><a href="{% url 'registro' %}">Registro</a></li>
+					<li><a href="{% url 'login_alumno' %}">Iniciar sesion</a></li>
+				{% endif %}
+			</ul>
+			<div id="adbox">
+			{% block adbox %}
+			{% endblock adbox %}
+			</div>
+		</div>
+		<div id="contents">
+			{% block contenido %}
+			{% endblock contenido %}
+		</div>
+		<div id="footer">
+			<div class="connect">
+				<a href="http://freewebsitetemplates.com/go/facebook/" target="_blank" class="facebook"></a> <a href="http://freewebsitetemplates.com/go/twitter/" target="_blank" class="twitter"></a> <a href="http://freewebsitetemplates.com/go/googleplus/" target="_blank" class="googleplus"></a>
+			</div>
+			<p>
+				Copyright &copy; 2012. All Rights Reserved.
+			</p>
+		</div>
+	</div>
+</body>
+</html>

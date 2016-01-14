@@ -1,0 +1,42 @@
+<form method="POST" class="form-horizontal" enctype="multipart/form-data" role="form" data-toggle="validator">
+  <fieldset>
+    <legend id="etiquetas">Registro en el sistema</legend>
+    {% if show_msg %}
+      {% if error %}
+        <div class="alert alert-warning" role="alert">
+          <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+          <strong>Alerta!!</strong>{{ mensaje }}</div>
+      {% else %}
+      <div class="alert alert-success" role="success">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <strong>Hecho!!</strong>{{ mensaje }}</div>
+      {% endif %}
+    {% endif %}
+
+  {% csrf_token %}
+  {{ form.non_field_errors }}
+  {% for elemento in form %}
+    <div class="form-group">
+      {{ elemento.errors }}
+        <label id="etiquetas" for="{{ elemento.label }}"  class="col-md-4 control-label">{{ elemento.label }}</label> <!-- DARLE css al id etiquetas-->
+        <div class="col-md-5">
+          {{ elemento }}
+          <div class="help-block with-errors">{{ elemento.help_text }}</div>
+        </div>
+    </div>
+  {% endfor %}
+    <div class="form-group">
+      <div class="col-md-8 col-md-offset-4">
+        {% if show_msg %}
+          {% if error %}
+            <a href="javascript:window.history.back();" class="btn btn-default" role="button">Regresar</a>
+          {% else %}
+            <a href="{% url 'inicio' %}" class="btn btn-default" role="button">Entendido</a>
+          {% endif %}
+        {% else %}
+          <button name="bRegistrar" class="btn btn-default">Registrar</button>
+        {% endif %}
+      </div>
+    </div
+  </fieldset>
+</form>
