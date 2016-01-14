@@ -1,5 +1,5 @@
 #local.py
-form .base import *
+from .base import *
 
 DEBUG = True
 ALLOWED_HOSTS = []
