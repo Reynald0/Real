@@ -9,10 +9,20 @@ class RegistroAlumno(forms.Form):
     OPCIONES = (
     ('Ing. Sistemas Computacionales', "Ing. Sistemas Computacionales",),
     ('Ing. Industrial', 'Ing. Industrial'),
+    ('Ing. Civil', 'Ing. Civil'),
+    ('Ing. Quimica', 'Ing. Quimica'),
+    ('Ing. Petrolera', 'Ing. Petrolera'),
+    ('Ing. Ambiental', 'Ing. Ambiental'),
+    ('Ing. Bioquimica', 'Ing. Bioquimica'),
+    ('Ing. Informatica', 'Ing. Informatica'),
+    ('Lic. en Administracion', 'Lic. en Administracion'),
+    ('Ing. Gestion Empresarial', 'Ing. Gestion Empresarial'),
+    ('Ing. en Tecnologias de la Informacion y Comunicaciones', 'Ing. TICs'),
     )
+    #usuario     = forms.CharField(help_text='Nombre de usuario',min_length=5,widget=forms.TextInput(attrs={'class': 'form-control','placeholder':'Usuario', 'id': 'Usuario'}))
     #usuario     = forms.CharField(min_length=5,widget=forms.TextInput(attrs={'class': 'form-control','placeholder':'Usuario'}))
     #carrera     = forms.ChoiceField(choices=OPCIONES, widget=forms.Select(attrs={'class': 'form-control','placeholder':'Edad'}))
-    usuario     = forms.CharField(help_text='Nombre de usuario',min_length=5,widget=forms.TextInput(attrs={'class': 'form-control','placeholder':'Usuario', 'id': 'Usuario'}))
+    usuario     = forms.CharField(min_length=5,widget=forms.TextInput(attrs={'class': 'form-control','placeholder':'Usuario', 'id': 'Usuario'}))
     clave       = forms.CharField(min_length=5, widget=forms.PasswordInput(attrs={'class': 'form-control','placeholder':'Contraseña', 'id': 'Clave'}))
     email       = forms.EmailField(label='E-Mail',widget=forms.EmailInput(attrs={'class': 'form-control','placeholder':'Correo electrónico', 'id': 'E-Mail'}))
     no_control  = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control','placeholder':'Número de control', 'id': 'No control'}))
