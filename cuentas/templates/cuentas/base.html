@@ -8,6 +8,8 @@
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Import materialize.css-->
     <link type="text/css" rel="stylesheet" href="{% static 'css/materialize.min.css' %}"  media="screen,projection"/>
+    <!--Import custom CSS for footer-->
+    <link type="text/css" rel="stylesheet" href="{% static 'css/custom.css' %}"  media="screen,projection"/>
 			<!-- Bootstrap CSS -->
 		<!--<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
@@ -22,14 +24,18 @@
   </head>
 	<body>
 		{% include 'cuentas/navbar.html' %}
-		<h2 class="truncate center-align">
-			{% block encabezado %}
-			{% endblock encabezado %}
-		</h2>
-		<div class="container">
-			{% block contenido %}
-      {% endblock contenido %}
-		</div>
+    <header>
+  		<h2 class="truncate center-align">
+  			{% block encabezado %}
+  			{% endblock encabezado %}
+  		</h2>
+    </header>
+    <main>
+      <div class="container">
+  			{% block contenido %}
+        {% endblock contenido %}
+  		</div>
+    </main>
 		<footer class="page-footer">
 			<!--<div class="container">
 				<div class="row">

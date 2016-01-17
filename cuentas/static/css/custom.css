@@ -1,0 +1,19 @@
+/*!
+ * Hoja de estilo custom para hacer funcionar ciertos elementos
+ * Copyright 2014-2015 Materialize
+ * MIT License (https://raw.githubusercontent.com/Dogfalo/materialize/master/LICENSE)
+ */
+
+ /* Footer siempre al final sin importar el contenido.
+ * La pagina necesita tener las etiquetas <header> <main> y <footer> para que funcione.
+ */
+
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+}

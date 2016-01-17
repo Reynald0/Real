@@ -18,7 +18,7 @@
   {% for elemento in form %}
     <div class="form-group">
       {{ elemento.errors }}
-        <label id="etiquetas" for="{{ elemento.label }}"  class="col-md-4 control-label">{{ elemento.label }}</label> <!-- DARLE css al id etiquetas-->
+        <label for="{{ elemento.label }}"  class="col-md-4 control-label">{{ elemento.label }}</label> <!-- DARLE css al id etiquetas-->
         <div class="col-md-5">
           {{ elemento }}
           <div class="help-block with-errors">{{ elemento.help_text }}</div>
