@@ -24,12 +24,12 @@ class RegistroAlumno(forms.Form):
     #carrera     = forms.ChoiceField(choices=OPCIONES, widget=forms.Select(attrs={'placeholder':'Edad'}))
     usuario     = forms.CharField(min_length=5,widget=forms.TextInput(attrs={'placeholder':'Usuario', 'id': 'Usuario'}))
     clave       = forms.CharField(min_length=5, widget=forms.PasswordInput(attrs={'placeholder':'Contraseña', 'id': 'Clave'}))
-    email       = forms.EmailField(label='E-Mail',widget=forms.EmailInput(attrs={'placeholder':'Correo electrónico', 'id': 'E-Mail'}))
-    no_control  = forms.IntegerField(widget=forms.NumberInput(attrs={'placeholder':'Número de control', 'id': 'No control'}))
+    email       = forms.EmailField(widget=forms.EmailInput(attrs={'placeholder':'Correo electrónico', 'id': 'Email', 'type': 'email', 'class':'validate'}))
+    no_control  = forms.IntegerField(widget=forms.NumberInput(attrs={'placeholder':'Número de control', 'id': 'No control', 'length' : '8'}))
     nombre      = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Nombre', 'id': 'Nombre'}))
     apellido    = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Apellido', 'id': 'Apellido'}))
     edad        = forms.IntegerField(widget=forms.NumberInput(attrs={'placeholder':'Edad', 'id': 'Edad'}))
-    carrera     = forms.ChoiceField(choices=OPCIONES, widget=forms.Select(attrs={'class': 'input-field col s12','placeholder':'Edad', 'id': 'Carrera'}))
+    carrera     = forms.ChoiceField(choices=OPCIONES, widget=forms.Select(attrs={'placeholder':'Edad', 'id': 'Carrera'}))
     promedio    = forms.FloatField(widget=forms.NumberInput(attrs={'placeholder':'Promedio', 'id': 'Promedio'}))
     semestre    = forms.IntegerField(widget=forms.NumberInput(attrs={'placeholder':'Semestre', 'id': 'Semestre'}))
 
@@ -55,8 +55,8 @@ class RegistroAlumno(forms.Form):
         return email
 
 class LogAlumno(forms.Form):
-    usuario = forms.CharField(min_length=5, widget=forms.TextInput(attrs={'class': 'form-control'}))
-    clave = forms.CharField(min_length=5, widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    usuario = forms.CharField(min_length=5,widget=forms.TextInput(attrs={'placeholder':'Usuario', 'id': 'Usuario'}))
+    clave = forms.CharField(min_length=5, widget=forms.PasswordInput(attrs={'placeholder':'Contraseña', 'id': 'Clave'}))
 
     def clean_usuario(self):
         #Comprueba que exista un username en la base de datos

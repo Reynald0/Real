@@ -17,3 +17,35 @@ body {
 main {
   flex: 1 0 auto;
 }
+
+footer .connect a {
+	background: url(../images/icons.png) no-repeat;
+}
+
+footer .connect a {
+	float: left;
+	display: block;
+	height: 26px;
+	margin: 0 6px;
+}
+footer .connect a.facebook {
+	background-position: -48px 0;
+	width: 12px;
+}
+footer .connect a.twitter {
+	background-position: -48px -36px;
+	width: 38px;
+}
+footer .connect a.googleplus {
+	background-position: -48px -72px;
+	width: 25px;
+}
+footer .connect a.facebook:hover {
+	background-position: 0 0;
+}
+footer .connect a.twitter:hover {
+	background-position: 0 -36px;
+}
+footer .connect a.googleplus:hover {
+	background-position: 0 -72px;
+}

@@ -4,13 +4,16 @@
 	LISTA
 {% endblock encabezado%}
 {% block contenido %}
+	<div class="card-panel yellow lighten-1">
+		<h4 class="flow-text center-align">
 			 {% if total_alumnos > 1%}
-				 <h4>{{ total_alumnos }} Alumnos registrados
+				 {{ total_alumnos }} Alumnos registrados
 			 {% else %}
-				 <h4>{{ total_alumnos }} Alumno registrado
+				 {{ total_alumnos }} Alumno registrado
 			 {% endif %}
-			 <i class="small material-icons">visibility</i></h4>
-			 <table class="highlight centered responsive-table">
+		</h4>
+	</div>
+	<table class="highlight centered responsive-table">
 				 <thead>
 					 <th>No. Control</th>
 					 <th>Nombre</th>
