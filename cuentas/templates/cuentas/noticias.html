@@ -1,0 +1,14 @@
+{% extends 'cuentas/base.html' %}
+{% load staticfiles %}
+{% block contenido %}
+	<div class="background">
+		<div id="news">
+			{% for noticia in noticias %}
+				<h2>{{ noticia.titulo }}</h2><h4>Fecha publicación: {{ noticia.fecha_publicacion }}</h4>
+				{{ noticia.texto|linebreaks}}
+				<div class="divider"></div>
+			{% endfor %}
+		</div>
+	</div>
+	</div>
+{% endblock contenido %}

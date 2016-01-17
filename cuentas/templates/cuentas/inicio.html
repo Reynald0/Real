@@ -1,32 +1,39 @@
 {% extends 'cuentas/base.html' %}
 {% load staticfiles %}
-{% block adbox %}
-		<img src="{% static 'images/discussing.jpg' %}" alt="Img" height="496" width="958">
-		<div class="details">
-			<h1>Espacio en blanco</h1>
-			<p>Texto a cambiar</p>
-		</div>
-{% endblock adbox %}
+{% block encabezado %}
+	INICIO
+{% endblock encabezado%}
 {% block contenido %}
-			<div>
-				<div id="headline">
-					<div class="body">
-						<h2>Acerca</h2>
-						<p>
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.<a href="#" class="more">Más</a>
-						</p>
+	<div class="card-panel hoverable">
+		<p class="flow-text">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
+	</div>
+	<div class="row">
+		<div class="grid-example col s12"><span class="flow-text">I am always full-width (col s12)</span></div>
+		<div class="grid-example col s12 m6"><span class="flow-text">I am full-width on mobile (col s12 m6)</span></div>
+	</div>
+	<div class="row">
+		<div class="grid-example col s12"><span class="flow-text">I am always full-width (col s12)</span></div>
+		<div class="grid-example col s12 m6"><span class="flow-text">I am full-width on mobile (col s12 m6)</span></div>
+	</div>
+
+	<div class="row">
+				<div class="col s4">
+					<div class="center">
+						<i class="large material-icons">input</i><br>
+						"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 					</div>
 				</div>
-				<div id="main">
-					<h2>Proceso</h2>
-					<p>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-					</p>
-					<ul>
-						<li><a href="#">1.Espacio</a></li>
-						<li><a href="#">2. Espacio</a></li>
-						<li><a href="#">3. Espacio</a></li>
-					</ul>
+				<div class="col s4">
+					<div class="center">
+						<i class="large material-icons">input</i><br>
+						"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+					</div>
 				</div>
-			</div>
+				<div class="col s4">
+					<div class="center">
+						<i class="large material-icons">input</i><br>
+						"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+					</div>
+				</div>
+	</div>
 {% endblock contenido %}

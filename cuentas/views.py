@@ -68,12 +68,12 @@ def registro_alumno(request):
 def registrado(request):
         return render(request, 'cuentas/registrado.html')
 
-def acerca(request):
-    return render(request, 'cuentas/acerca.html')
+def informacion(request):
+    return render(request, 'cuentas/informacion.html')
 
-def noticia(request):
+def noticias(request):
     noticias = Noticia.objects.filter(fecha_publicacion__lte=timezone.now()).order_by('-fecha_publicacion')
-    return render(request, 'cuentas/noticia.html', {'noticias': noticias})
+    return render(request, 'cuentas/noticias.html', {'noticias': noticias})
 
 def contacto(request):
     return render(request, 'cuentas/contacto.html')

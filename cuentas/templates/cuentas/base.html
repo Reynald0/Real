@@ -1,63 +1,62 @@
 {% load staticfiles %}
 <!DOCTYPE html>
-<!-- Website template by freewebsitetemplates.com -->
 <html>
-<head>
-	<meta charset="UTF-8">
-	<title>REALBI</title>
-	<!-- Bootstrap CSS -->
-	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
-	<link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
-
-	<!-- jQuery and Bootstrap JS -->
-	<script type="text/javascript" src="{% static 'js/jquery-1.12.0.min.js'%}"></script>
-	<script type="text/javascript" src="{% static 'js/bootstrap.min.js'%}"></script>
-
-	<!-- BootstrapValidator -->
-	<script type="text/javascript" src="{% static 'js/validator.min.js'%}"></script>
-	<!--[if IE]>
-		<link rel="stylesheet" href="css/ie.css" type="text/css" charset="utf-8">
-	<![endif]-->
-</head>
-<body>
-	<div id="page">
-		<div id="header">
-			<a href="{% url 'inicio' %}" id="logo"><img src="{% static 'images/logo.png' %}" alt="LOGO"></a>
-			<ul id="navigation">
-				<li><a href="{% url 'inicio' %}" title="Inicio"></a></li>
-				<li><a href="{% url 'acerca' %}">Acerca</a></li>
-				<!--li><a href="#">Procuto</a></li>
-				<li><a href="#">Servicios</a></li>
-				<li><a href="#">Soluciones</a></li>
-				<li><a href="#">Blog</a></li-->
-				<li><a href="{% url 'contacto' %}">Contacto</a></li>
-				{% if user.is_authenticated %} <!--Usuario logeado -->
-					<li><a href="{% url 'noticia' %}">Noticias</a></li>
-					<li><a href="{% url 'lista_alumnos' %}">Lista</a></li>
-					<li><a href="{% url 'logout_alumno' %}">Salir</a></li>
-				{% else %}
-					<li><a href="{% url 'registro' %}">Registro</a></li>
-					<li><a href="{% url 'login_alumno' %}">Iniciar sesion</a></li>
-				{% endif %}
-			</ul>
-			<div id="adbox">
-			{% block adbox %}
-			{% endblock adbox %}
-			</div>
-		</div>
-		<div id="contents">
+  <head>
+		<meta charset="UTF-8">
+		<title>REAL</title>
+    <!--Import Google Icon Font-->
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="{% static 'css/materialize.min.css' %}"  media="screen,projection"/>
+			<!-- Bootstrap CSS -->
+		<!--<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+		<link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">-->
+			<!-- jQuery and Bootstrap JS -->
+		<script type="text/javascript" src="{% static 'js/jquery-1.12.0.min.js' %}"></script>
+		<script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+			<!-- BootstrapValidator -->
+		<script type="text/javascript" src="{% static 'js/validator.min.js' %}"></script>
+      <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  </head>
+	<body>
+		{% include 'cuentas/navbar.html' %}
+		<h2 class="truncate center-align">
+			{% block encabezado %}
+			{% endblock encabezado %}
+		</h2>
+		<div class="container">
 			{% block contenido %}
-			{% endblock contenido %}
+      {% endblock contenido %}
 		</div>
-		<div id="footer">
-			<div class="connect">
-				<a href="#" target="_blank" class="facebook"></a> <a href="#" target="_blank" class="twitter"></a> <a href="#" target="_blank" class="googleplus"></a>
+		<footer class="page-footer">
+			<!--<div class="container">
+				<div class="row">
+					<div class="col l6 s12">
+						<h5 class="white-text">Footer Content</h5>
+						<p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
+					</div>
+					<div class="col l4 offset-l2 s12">
+						<h5 class="white-text">Links</h5>
+						<ul>
+							<li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
+							<li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
+							<li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
+							<li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
+						</ul>
+					</div>-->
+				</div>
 			</div>
-			<p>
-				Reynald0 Copyright &copy; 2016. Derechos Reservados.
-			</p>
-		</div>
-	</div>
-</body>
+				<div class="container">
+				© 2014 Copyright Text
+				<a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+				</div>
+		</footer>
+		<!--Import jQuery before materialize.js-->
+		<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+		<script type="text/javascript" src="{% static 'js/materialize.min.js' %}"></script>
+		<!-- Custom JQuery-->
+		<script type="text/javascript" src="{% static 'js/sitio.js' %}"></script>
+	</body>
 </html>

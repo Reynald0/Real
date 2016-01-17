@@ -1,45 +1,45 @@
 {% extends 'cuentas/base.html' %}
 {% load staticfiles %}
+{% block encabezado %}
+	LISTA
+{% endblock encabezado%}
 {% block contenido %}
-	<div class="background">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        {% if total_alumnos > 1%}
-          <h3 class="panel-title">{{ total_alumnos }} Alumnos registrados
-        {% else %}
-          <h3 class="panel-title">{{ total_alumnos }} Alumno registrado
-        {% endif %}
-          <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></h3>
-      </div>
-      <div class="panel-body">
-        <table class="table table-hover">
-          <thead>
-            <th>No. Control</th>
-            <th>Nombre</th>
-            <th>Apellido</th>
-            <th>Edad</th>
-            <th>Carrera</th>
-            <th>Semestre</th>
-            <th>Promedio</th>
-          </thead>
-          <tbody>
-            {% for alumno in alumnos %}
-            <tr align="center">
-              <td><strong>{{ alumno.no_control }}</strong></td>
-              <td>{{ alumno.nombre }}</td>
-              <td>{{ alumno.apellido }}</td>
-              <td>{{ alumno.edad }}</td>
-              <td>{{ alumno.carrera }}</td>
-              <td>{{ alumno.semestre }}</td>
-              <td>{{ alumno.promedio }}</td>
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-    </div>
-	</div>
+			 {% if total_alumnos > 1%}
+				 <h4>{{ total_alumnos }} Alumnos registrados
+			 {% else %}
+				 <h4>{{ total_alumnos }} Alumno registrado
+			 {% endif %}
+			 <i class="small material-icons">visibility</i></h4>
+			 <table class="highlight centered responsive-table">
+				 <thead>
+					 <th>No. Control</th>
+					 <th>Nombre</th>
+					 <th>Apellido</th>
+					 <th>Edad</th>
+					 <th>Carrera</th>
+					 <th>Semestre</th>
+					 <th>Promedio</th>
+				 </thead>
+				 <tbody>
+					 {% for alumno in alumnos %}
+					 <tr>
+						 <td>{{ alumno.no_control }}</td>
+						 <td>{{ alumno.nombre }}</td>
+						 <td>{{ alumno.apellido }}</td>
+						 <td>{{ alumno.edad }}</td>
+						 <td>{{ alumno.carrera }}</td>
+						 <td>{{ alumno.semestre }}</td>
+						 <td>{{ alumno.promedio }}</td>
+						 </tr>
+					 {% endfor %}
+				 </tbody>
+			 </table>
+		 </div>
+	 </div>
 {% endblock contenido %}
+
+
+
 
 
 <!DOCTYPE HTML>

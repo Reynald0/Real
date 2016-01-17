@@ -1,0 +1,114 @@
+<div class="navbar-fixed">
+  <nav>
+      <div class="nav-wrapper">
+        <a href="{% url 'inicio' %}" class="brand-logo">Logo</a>
+        <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+        <ul class="right hide-on-med-and-down">
+          <li>
+            <a href="{% url 'inicio' %}">
+              <i class="material-icons right">turned_in_not</i>
+              Inicio
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'informacion' %}">
+              <i class="material-icons right">web</i>
+              Informacion
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'contacto' %}">
+              <i class="material-icons right">supervisor_account</i>
+              Contacto
+            </a>
+          </li>
+          {% if user.is_authenticated %} <!--Usuario logeado -->
+            <li>
+            <a href="{% url 'noticias' %}">
+                <i class="material-icons right">announcement</i>
+                Noticias
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'lista_alumnos' %}">
+                <i class="material-icons right">view_list</i>
+                Lista
+              </a>
+            </li>
+          <li>
+            <a href="{% url 'logout_alumno' %}">
+              <i class="material-icons right">settings_power</i>
+              Cerrar Sesión
+            </a>
+          </li> <!--Usuario logeado -->
+          {% else %} <!--Usuario no logueado -->
+            <li>
+              <a href="{% url 'registro' %}">
+                <i class="material-icons right">assignment_ind</i>
+                Registro
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'login_alumno' %}">
+                <i class="material-icons right">input</i>
+                Iniciar Sesion
+              </a>
+            </li>
+          {% endif %}  <!--Usuario no logueado -->
+        </ul>
+        <ul class="side-nav" id="mobile-demo">
+          <li>
+            <a href="{% url 'inicio' %}">
+              <i class="material-icons right">turned_in_not</i>
+              Inicio
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'informacion' %}">
+              <i class="material-icons right">web</i>
+              Informacion
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'contacto' %}">
+              <i class="material-icons right">supervisor_account</i>
+              Contacto
+            </a>
+          </li>
+          {% if user.is_authenticated %} <!--Usuario logeado -->
+            <li>
+            <a href="{% url 'noticias' %}">
+                <i class="material-icons right">announcement</i>
+                Noticias
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'lista_alumnos' %}">
+                <i class="material-icons right">view_list</i>
+                Lista
+              </a>
+            </li>
+          <li>
+            <a href="{% url 'logout_alumno' %}">
+              <i class="material-icons right">settings_power</i>
+              Cerrar Sesión
+            </a>
+          </li> <!--Usuario logeado -->
+          {% else %} <!--Usuario no logueado -->
+            <li>
+              <a href="{% url 'registro' %}">
+                <i class="material-icons right">assignment_ind</i>
+                Registro
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'login_alumno' %}">
+                <i class="material-icons right">input</i>
+                Iniciar Sesion
+              </a>
+            </li>
+          {% endif %}  <!--Usuario no logueado -->
+        </ul>
+      </div>
+    </nav>
+</div>

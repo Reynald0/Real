@@ -8,10 +8,10 @@ urlpatterns = [
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^$', views.inicio, name='inicio'),
-    url(r'^acerca/$', views.acerca, name='acerca'),
+    url(r'^informacion/$', views.informacion, name='informacion'),
     url(r'^registro/$', views.registro_alumno, name='registro'),
     url(r'^registrado/$', views.registrado, name='registrado'),
-    url(r'^noticia/$', views.noticia, name='noticia'),
+    url(r'^noticias/$', views.noticias, name='noticias'),
     url(r'^login/$', views.login_alumno, name='login_alumno'),
     url(r'^logout/$', views.logout_alumno, name='logout_alumno'),
     url(r'^contacto/$', views.contacto, name='contacto'),
