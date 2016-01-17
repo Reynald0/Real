@@ -18,6 +18,12 @@ main {
   flex: 1 0 auto;
 }
 
+/* CSS personalizado para darle color a la barra lateral */
+#mobile-demo li a{
+  color: white;
+}
+
+/* FIN de CSS personalizado para darle color a la barra lateral */
 footer .connect a {
 	background: url(../images/icons.png) no-repeat;
 }
