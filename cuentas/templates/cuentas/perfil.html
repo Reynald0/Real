@@ -1,0 +1,18 @@
+{% extends 'cuentas/base.html' %}
+{% load staticfiles %}
+{% block encabezado %}
+	{{user.username}}
+{% endblock encabezado%}
+{% block contenido %}
+	<div class="card-panel hoverable">
+		<p class="flow-text">
+			<b>No. Control:</b> {{ alumno.no_control }}<br>
+			<b>Nombre(s):</b> {{ alumno.nombre }}<br>
+			<b>Apellido(s):</b> {{ alumno.apellido }}<br>
+			<b>Edad:</b> {{ alumno.edad }}<br>
+			<b>Carrera:</b> {{ alumno.carrera }}<br>
+			<b>Semestre:</b> {{ alumno.semestre }}<br>
+			<b>Promedio:</b> {{ alumno.promedio }}<br>
+		</p>
+	</div>
+{% endblock contenido %}

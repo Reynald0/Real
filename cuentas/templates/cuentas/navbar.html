@@ -1,4 +1,15 @@
 <div class="navbar-fixed">
+  <!-- Dropdown Structure -->
+  <ul id="dropdown" class="dropdown-content">
+    <li><a href="{% url 'perfil_alumno' %}">Ver perfil</a></li>
+    <li class="divider"></li>
+    <li><a href="{% url 'logout_alumno' %}">Salir</a></li>
+  </ul>
+  <ul id="dropdown-mobile" class="dropdown-content light-blue darken-3">
+    <li><a href="{% url 'perfil_alumno' %}">Ver perfil</a></li>
+    <li class="divider"></li>
+    <li><a href="{% url 'logout_alumno' %}">Salir</a></li>
+  </ul>
   <nav class="light-blue darken-3">
       <div class="nav-wrapper">
         <a href="{% url 'inicio' %}" class="brand-logo">Logo</a>
@@ -35,12 +46,13 @@
                 Lista
               </a>
             </li>
-          <li>
-            <a href="{% url 'logout_alumno' %}">
-              <i class="material-icons right">settings_power</i>
-              Cerrar Sesión
-            </a>
-          </li> <!--Usuario logeado -->
+            <!-- Dropdown Trigger -->
+            <li>
+              <a class="dropdown-button" data-activates="dropdown">
+                Perfil
+                <i class="material-icons right">arrow_drop_down</i>
+              </a>
+            </li>  <!--Usuario logeado -->
           {% else %} <!--Usuario no logueado -->
             <li>
               <a href="{% url 'registro' %}">
@@ -56,7 +68,7 @@
             </li>
           {% endif %}  <!--Usuario no logueado -->
         </ul>
-        <ul class="side-nav light-blue darken-3" id="mobile-demo">
+        <ul class="side-nav light-blue darken-3" id="mobile-demo"> <!-- Navbar para dispositivos moviles -->
           <li>
             <a href="{% url 'inicio' %}">
               <i class="material-icons right">turned_in_not</i>
@@ -89,9 +101,9 @@
               </a>
             </li>
           <li>
-            <a href="{% url 'logout_alumno' %}">
-              <i class="material-icons right">settings_power</i>
-              Cerrar Sesión
+            <a class="dropdown-button" data-activates="dropdown-mobile">
+              Perfil
+              <i class="material-icons right">arrow_drop_down</i>
             </a>
           </li> <!--Usuario logeado -->
           {% else %} <!--Usuario no logueado -->

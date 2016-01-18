@@ -65,13 +65,12 @@ def registro_alumno(request):
         form = RegistroAlumno()
     return render(request, 'cuentas/registro.html', {'form': form})
 
-def registrado(request):
-        return render(request, 'cuentas/registrado.html')
-
 def informacion(request):
     return render(request, 'cuentas/informacion.html')
 
 def noticias(request):
+    if not request.user.is_authenticated():
+        return login_alumno(request)
     noticias = Noticia.objects.filter(fecha_publicacion__lte=timezone.now()).order_by('-fecha_publicacion')
     return render(request, 'cuentas/noticias.html', {'noticias': noticias})
 
@@ -79,6 +78,8 @@ def contacto(request):
     return render(request, 'cuentas/contacto.html')
 
 def lista_alumnos(request):
+    if not request.user.is_authenticated():
+        return login_alumno(request)
     alumnos = Alumno.objects.order_by('nombre')
     return render(request, 'cuentas/lista_alumnos.html', {'alumnos' : alumnos , 'total_alumnos': len(alumnos)})
 
@@ -107,3 +108,10 @@ def login_alumno(request):
 def logout_alumno(request):
     logout(request)
     return inicio(request)
+
+def perfil_alumno(request):
+    if not request.user.is_authenticated():
+        return login_alumno(request)
+
+    alumno = Alumno.objects.get(user_id=request.user.pk)
+    return render(request, 'cuentas/perfil.html', {'alumno' : alumno })
