@@ -65,8 +65,8 @@ class RegistroAlumno(forms.Form):
         return promedio
 
 class LogAlumno(forms.Form):
-    usuario = forms.CharField(min_length=5,widget=forms.TextInput(attrs={'placeholder':'Usuario', 'id': 'Usuario'}))
-    clave = forms.CharField(min_length=5, widget=forms.PasswordInput(attrs={'placeholder':'Contraseña', 'id': 'Clave'}))
+    usuario = forms.CharField(min_length=5,widget=forms.TextInput(attrs={'id': 'Usuario'}))
+    clave = forms.CharField(min_length=5, widget=forms.PasswordInput(attrs={'id': 'Clave'}))
 
     def clean_usuario(self):
         #Comprueba que exista un username en la base de datos
