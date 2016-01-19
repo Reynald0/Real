@@ -37,9 +37,8 @@ def registro_alumno(request):
             semestre    = cleaned_data.get('semestre')
             ######
             try:
-                modelo_alumno = User.objects.create_user(username=usuario, password=clave, first_name= nombre, last_name=apellido)
+                modelo_alumno = User.objects.create_user(username=usuario.title(), password=clave, first_name= nombre.title(), last_name=apellido.title())
             except IntegrityError as e:
-                ruta = 'registro'
                 mensaje = 'Ya existe ese usuario.'
                 error = True
                 return render(request,'cuentas/registro.html', {'error':error, 'mensaje': mensaje, 'show_msg': show_msg})
@@ -47,8 +46,8 @@ def registro_alumno(request):
             ######
             alumno = Alumno()
             alumno.no_control = no_control
-            alumno.nombre = nombre
-            alumno.apellido = apellido
+            alumno.nombre = nombre.title()
+            alumno.apellido = apellido.title()
             alumno.edad = edad
             alumno.carrera = carrera
             alumno.promedio = promedio
@@ -57,7 +56,7 @@ def registro_alumno(request):
             alumno.user = modelo_alumno
             alumno.save()
             modelo_alumno.save()
-            log_alumno = authenticate(username=usuario, password=clave)
+            log_alumno = authenticate(username=usuario.title(), password=clave)
             login(request, log_alumno)
             # Ahora, redireccionamos a la pagina cuentas/registro.html
             # Pero lo hacemos con un redirect.
@@ -91,7 +90,7 @@ def login_alumno(request):
         if form.is_valid():
             usuario = request.POST.get('usuario')
             clave = request.POST.get('clave')
-            alumno = authenticate(username=usuario, password=clave)
+            alumno = authenticate(username=usuario.title(), password=clave)
             if alumno is not None:
                 if alumno.is_active:
                     login(request, alumno)
@@ -114,7 +113,7 @@ def perfil_alumno(request):
     if not request.user.is_authenticated():
         return login_alumno(request)
     try: #Evalua si el usuario tiene un alumno registrado, por ejemplo: Una cuenta ADMIN no posee un alumno registrado
-        alumno = Alumno.objects.get(user_id=request.user.pk)
+        alumno_user = Alumno.objects.get(user_id=request.user.pk)
     except ObjectDoesNotExist :
-        return render(request, 'cuentas/perfil.html') #No manda objeto alumno ya que no existe
-    return render(request, 'cuentas/perfil.html', {'alumno' : alumno })
+        return render(request, 'cuentas/perfil.html') #No manda objeto alumno_user ya que no existe
+    return render(request, 'cuentas/perfil.html', {'alumno' : alumno_user })

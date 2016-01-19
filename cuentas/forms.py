@@ -22,16 +22,16 @@ class RegistroAlumno(forms.Form):
     #usuario     = forms.CharField(help_text='Nombre de usuario',min_length=5,widget=forms.TextInput(attrs={'placeholder':'Usuario', 'id': 'Usuario'}))
     #usuario     = forms.CharField(min_length=5,widget=forms.TextInput(attrs={'placeholder':'Usuario'}))
     #carrera     = forms.ChoiceField(choices=OPCIONES, widget=forms.Select(attrs={'placeholder':'Edad'}))
-    usuario     = forms.CharField(min_length=5,widget=forms.TextInput(attrs={'placeholder':'Usuario', 'id': 'Usuario'}))
-    clave       = forms.CharField(min_length=5, widget=forms.PasswordInput(attrs={'placeholder':'Contraseña', 'id': 'Clave'}))
-    email       = forms.EmailField(widget=forms.EmailInput(attrs={'placeholder':'Correo electrónico', 'id': 'Email', 'type': 'email', 'class':'validate'}))
-    no_control  = forms.IntegerField(widget=forms.NumberInput(attrs={'placeholder':'Número de control', 'id': 'No control', 'length' : '8'}))
-    nombre      = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Nombre', 'id': 'Nombre'}))
-    apellido    = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Apellido', 'id': 'Apellido'}))
-    edad        = forms.IntegerField(widget=forms.NumberInput(attrs={'placeholder':'Edad', 'id': 'Edad'}))
-    carrera     = forms.ChoiceField(choices=OPCIONES, widget=forms.Select(attrs={'placeholder':'Edad', 'id': 'Carrera'}))
-    promedio    = forms.FloatField(widget=forms.NumberInput(attrs={'placeholder':'Promedio', 'id': 'Promedio'}))
-    semestre    = forms.IntegerField(widget=forms.NumberInput(attrs={'placeholder':'Semestre', 'id': 'Semestre'}))
+    usuario     = forms.CharField(min_length=5,widget=forms.TextInput(attrs={'id': 'Usuario'}))
+    clave       = forms.CharField(min_length=5, widget=forms.PasswordInput(attrs={'id': 'Clave'}))
+    email       = forms.EmailField(widget=forms.EmailInput(attrs={'id': 'Email', 'type': 'email', 'class':'validate'}))
+    no_control  = forms.IntegerField(widget=forms.NumberInput(attrs={'id': 'No control', 'length' : '8', 'class':'validate'}))
+    nombre      = forms.CharField(widget=forms.TextInput(attrs={'id': 'Nombre'}))
+    apellido    = forms.CharField(widget=forms.TextInput(attrs={'id': 'Apellido'}))
+    edad        = forms.IntegerField(widget=forms.NumberInput(attrs={'id': 'Edad'}))
+    carrera     = forms.ChoiceField(choices=OPCIONES, widget=forms.Select(attrs={'id': 'Carrera'}))
+    promedio    = forms.FloatField(widget=forms.NumberInput(attrs={'id': 'Promedio'}))
+    semestre    = forms.IntegerField(widget=forms.NumberInput(attrs={'id': 'Semestre'}))
 
     def clean_usuario(self):
         #Comprueba que no exista un usuario igual en la base de datos
@@ -42,9 +42,12 @@ class RegistroAlumno(forms.Form):
 
     def clean_no_control(self):
         #Comprueba que no exista un numero de control igual en la base de datos
+        #Comprueba que el numero de control sea exactamente de 8 digitos
         no_control = str(self.cleaned_data['no_control'])
         if Alumno.objects.filter(no_control=no_control):
             raise forms.ValidationError('El número de control ya existe!')
+        elif len(no_control) > 8:
+            raise forms.ValidationError('Solo se permiten 8 dígitos en el número de control')
         return no_control
 
     def clean_email(self):
@@ -54,6 +57,13 @@ class RegistroAlumno(forms.Form):
             raise forms.ValidationError('El correo ya fue registrado!')
         return email
 
+    def clean_promedio(self):
+        #Comprueba que el promedio no sea mayor a 100
+        promedio = int(self.cleaned_data['promedio'])
+        if promedio > 100:
+            raise forms.ValidationError('Promedio en escala de 1 a 100')
+        return promedio
+
 class LogAlumno(forms.Form):
     usuario = forms.CharField(min_length=5,widget=forms.TextInput(attrs={'placeholder':'Usuario', 'id': 'Usuario'}))
     clave = forms.CharField(min_length=5, widget=forms.PasswordInput(attrs={'placeholder':'Contraseña', 'id': 'Clave'}))
@@ -61,6 +71,6 @@ class LogAlumno(forms.Form):
     def clean_usuario(self):
         #Comprueba que exista un username en la base de datos
         usuario = self.cleaned_data['usuario']
-        if not User.objects.filter(username=usuario):
+        if not User.objects.filter(username=usuario.title()):
             raise forms.ValidationError('El nombre de usuario no existe!')
         return usuario
