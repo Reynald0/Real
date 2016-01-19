@@ -1,14 +1,22 @@
 {% extends 'cuentas/base.html' %}
 {% load staticfiles %}
+{% block encabezado %}
+	NOTICIAS
+{% endblock encabezado%}
 {% block contenido %}
-	<div class="background">
-		<div id="news">
-			{% for noticia in noticias %}
-				<h2>{{ noticia.titulo }}</h2><h4>Fecha publicación: {{ noticia.fecha_publicacion }}</h4>
-				{{ noticia.texto|linebreaks}}
-				<div class="divider"></div>
-			{% endfor %}
-		</div>
-	</div>
-	</div>
+  <ul class="collapsible popout" data-collapsible="accordion">
+		{% for noticia in noticias %}
+		<li>
+			<div class="collapsible-header active">
+				<i class="material-icons">{% if forloop.first %}new_releases{% else %}speaker_notes{% endif %}</i>
+				<b>{{ noticia.titulo }}</b> - {{ noticia.fecha_publicacion|date:"SHORT_DATE_FORMAT" }}
+			</div>
+			<div class="collapsible-body">
+				<p>
+					{{ noticia.texto }}
+				</p>
+			</div>
+		</li>
+		{% endfor %}
+	</ul>
 {% endblock contenido %}

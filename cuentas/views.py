@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 -*-
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -112,6 +113,8 @@ def logout_alumno(request):
 def perfil_alumno(request):
     if not request.user.is_authenticated():
         return login_alumno(request)
-
-    alumno = Alumno.objects.get(user_id=request.user.pk)
+    try: #Evalua si el usuario tiene un alumno registrado, por ejemplo: Una cuenta ADMIN no posee un alumno registrado
+        alumno = Alumno.objects.get(user_id=request.user.pk)
+    except ObjectDoesNotExist :
+        return render(request, 'cuentas/perfil.html') #No manda objeto alumno ya que no existe
     return render(request, 'cuentas/perfil.html', {'alumno' : alumno })
