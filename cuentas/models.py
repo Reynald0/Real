@@ -17,11 +17,3 @@ class Alumno(models.Model):
 
     def __str__(self):
         return str(self.no_control)
-
-class Noticia(models.Model):
-    titulo = models.CharField(max_length=50)
-    texto = models.TextField()
-    fecha_publicacion = models.DateTimeField(default = timezone.now ,blank=True, null = True)
-
-    def __str__(self):
-        return self.titulo

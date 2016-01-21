@@ -3,10 +3,9 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from django.shortcuts import render, redirect
-from django.utils import timezone
+from django.shortcuts import render #redirect
 from .forms import RegistroAlumno, LogAlumno
-from .models import Alumno, Noticia
+from .models import Alumno
 
 def inicio(request):
     return render(request, 'cuentas/inicio.html')
@@ -59,7 +58,7 @@ def registro_alumno(request):
             log_alumno = authenticate(username=usuario.title(), password=clave)
             login(request, log_alumno)
             # Ahora, redireccionamos a la pagina cuentas/registro.html
-            # Pero lo hacemos con un redirect.
+            # Pero lo hacemos con un render.
             return render(request,'cuentas/registro.html', {'error':error, 'mensaje': mensaje, 'show_msg': show_msg})
     else:
         form = RegistroAlumno()
@@ -67,12 +66,6 @@ def registro_alumno(request):
 
 def informacion(request):
     return render(request, 'cuentas/informacion.html')
-
-def noticias(request):
-    if not request.user.is_authenticated():
-        return login_alumno(request)
-    noticias = Noticia.objects.filter(fecha_publicacion__lte=timezone.now()).order_by('-fecha_publicacion')
-    return render(request, 'cuentas/noticias.html', {'noticias': noticias})
 
 def contacto(request):
     return render(request, 'cuentas/contacto.html')
