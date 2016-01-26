@@ -1,0 +1,17 @@
+{% extends 'components/base.html' %}
+{% load staticfiles %}
+{% block encabezado %}
+	REGISTRO
+{% endblock encabezado%}
+{% block contenido %}
+	<div class="background">
+		{% if show_msg %}
+		  {% if error %}
+		  <div class="card-panel yellow lighten-1"><i class="material-icons left">error</i><b>Alerta!! {{ mensaje }}</b></div>
+		  {% else %}
+		  <div class="card-panel green lighten-1"><i class="material-icons left">done_all</i><b>Hecho!! {{ mensaje }} Sesión iniciada.</b></div>
+		  {% endif %}
+		{% endif %}
+    {% include 'snippets/form.html' %}
+	</div>
+{% endblock contenido %}

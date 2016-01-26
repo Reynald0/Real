@@ -56,7 +56,7 @@ ROOT_URLCONF = 'Real.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -109,4 +109,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+#Esta ruta permite usar la carpeta static dentro de las aplicaciones
+# Ademas es la que reconocera el servidor al momento de ejecutar collectstatic
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')

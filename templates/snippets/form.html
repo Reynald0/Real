@@ -1,16 +1,13 @@
-{% if show_msg %}
-  {% if error %}
-  <div class="card-panel yellow lighten-1"><i class="material-icons left">error</i><b>Alerta!! {{ mensaje }}</b></div>
-  {% else %}
-  <div class="card-panel green lighten-1"><i class="material-icons left">done_all</i><b>Hecho!! {{ mensaje }} Sesión iniciada.</b></div>
-  {% endif %}
-{% endif %}
 <form method="POST" class="col s12" enctype="multipart/form-data" role="form" data-toggle="validator">
   <fieldset>
   {% csrf_token %}
   {{ form.non_field_errors }}
   {% for elemento in form %}
-    {{ elemento.errors }}
+  {% if elemento.errors %}
+  <div class="custom-error">
+    <b>{{ elemento.errors }}</b>
+  </div>
+  {% endif %}
     <div class="row">
       <div class="input-field col s12">
           {{ elemento }}
