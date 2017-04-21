@@ -5,18 +5,30 @@
 {% endblock encabezado%}
 {% block contenido %}
   <ul class="collapsible popout" data-collapsible="accordion">
-		{% for noticia in noticias %}
-		<li>
-			<div class="collapsible-header active">
-				<i class="material-icons">{% if forloop.first %}new_releases{% else %}speaker_notes{% endif %}</i>
-				<b>{{ noticia.titulo }}</b> - {{ noticia.fecha_publicacion|date:"SHORT_DATE_FORMAT" }}
-			</div>
-			<div class="collapsible-body">
-				<p>
-					{{ noticia.texto }}
+		{% if noticias %}
+			{% for noticia in noticias %}
+				<li>
+					<div class="collapsible-header active">
+					{% if forloop.first %}
+						<span class="new badge blue" data-badge-caption="NUEVO"></span>
+						<i class="material-icons">new_releases</i>
+					{% else %}<i class="material-icons">speaker_notes</i>
+					{% endif %}	
+						<b>{{ noticia.titulo }}</b> - {{ noticia.fecha_publicacion|date:"SHORT_DATE_FORMAT" }}
+					</div>
+					<div class="collapsible-body">
+						<p>
+							{{ noticia.texto }}
+						</p>
+					</div>
+				</li>
+			{% endfor %}
+		{% else %}
+			<div class="card-panel hoverable center yellow">
+				<p class="flow-text">
+					<b>No hay noticias que mostrar</b>
 				</p>
 			</div>
-		</li>
-		{% endfor %}
+		{% endif %}
 	</ul>
 {% endblock contenido %}
