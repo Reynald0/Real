@@ -10,7 +10,7 @@ class RegistroAlumno(forms.Form):
     no_control  = forms.IntegerField(widget=forms.NumberInput(attrs={'id': 'No control', 'length' : '8', 'class':'validate'}))
     nombre      = forms.CharField(widget=forms.TextInput(attrs={'id': 'Nombre'}))
     apellido    = forms.CharField(widget=forms.TextInput(attrs={'id': 'Apellido'}))
-    fecha_nac   = forms.DateField(widget=forms.DateInput(attrs={'id': 'Fecha de nacimiento', 'type' : 'date', 'class': 'datepicker'}))
+    fecha_nac   = forms.DateField(widget=forms.DateInput(attrs={'type' : 'date', 'class': 'datepicker'}))
     carrera     = forms.ModelChoiceField(queryset=Carrera.objects.all())
     promedio    = forms.FloatField(widget=forms.NumberInput(attrs={'id': 'Promedio'}))
     semestre    = forms.IntegerField(widget=forms.NumberInput(attrs={'id': 'Semestre'}))

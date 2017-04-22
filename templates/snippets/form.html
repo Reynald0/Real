@@ -1,5 +1,4 @@
 <form method="POST" class="col s12" enctype="multipart/form-data" role="form" data-toggle="validator">
-  <fieldset>
   {% csrf_token %}
   {{ form.non_field_errors }}
   {% for elemento in form %}
@@ -29,6 +28,5 @@
           </button>
         {% endif %}
       </div>
-    </div
-  </fieldset>
+    </div>
 </form>
