@@ -9,12 +9,15 @@
 			{% for noticia in noticias %}
 				<li>
 					<div class="collapsible-header active">
-					{% if forloop.first %}
-						<span class="new badge blue" data-badge-caption="NUEVO"></span>
-						<i class="material-icons">new_releases</i>
-					{% else %}<i class="material-icons">speaker_notes</i>
-					{% endif %}	
-						<b>{{ noticia.titulo }}</b> - {{ noticia.fecha_publicacion|date:"SHORT_DATE_FORMAT" }}
+						{% if forloop.first %}
+							<i class="material-icons">new_releases</i>
+						{% else %}
+							<i class="material-icons">speaker_notes</i>
+						{% endif %}	
+							<b>{{ noticia.titulo }}</b> - {{ noticia.fecha_publicacion|date:"SHORT_DATE_FORMAT" }}
+							<div class="chip light-blue darken-3 white-text">
+								NUEVO
+							</div>
 					</div>
 					<div class="collapsible-body">
 						<p>
