@@ -1,11 +1,41 @@
 # -*- encoding: utf-8 -*-
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.mail import EmailMessage
 from django.db import IntegrityError
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.shortcuts import render, redirect
-from .forms import RegistroAlumno, LogAlumno
+from django.shortcuts import render, redirect, get_object_or_404
+from django.template import Context
+from django.template.loader import get_template
+from .forms import RegistroAlumno, LogAlumno, AlumnoForm
 from .models import Alumno
+from datetime import date
+
+
+
+def enviar_datos_al_correo(correo_electronico, nombre_usuario, password):
+    subject = "Registro REAL"
+    to = [correo_electronico]
+    from_email = 'reynaldobernard15@gmail.com'
+
+    contexto = {
+        'user': nombre_usuario,
+        'pass': password
+    }
+
+    message = get_template('email/email_plantilla.html').render(Context(contexto))
+    msg = EmailMessage(subject, message, to=to, from_email=from_email)
+    msg.content_subtype = 'html'
+    msg.send()
+
+def calcular_edad(fecha_nac):
+    diferencia_fechas = date.today() - fecha_nac
+    diferencia_fechas_dias = diferencia_fechas.days
+    edad_numerica = diferencia_fechas_dias / 365.2425 # 365.2425 ---> Valor gregoriano de un año
+    edad = int(edad_numerica)
+    return edad
+
 
 def inicio(request): #Se define la funcion inicio el cual es el nombre de la vista a mostrar
     # Regresa el html 'inicio' unicado en la carpeta templates/cuentas de la aplicacion cuentas,
@@ -15,7 +45,7 @@ def inicio(request): #Se define la funcion inicio el cual es el nombre de la vis
 
 def registro_alumno(request): #Se define la funcion registro_alumno el cual es el nombre de la vista a mostrar
     show_msg = False
-    mensaje = 'Registrado exitosamente.'
+    mensaje = 'Registrado exitosamente, se ha enviado un correo con sus datos!'
     error = False
     if request.method == 'POST': #Si el formulario envia algo con el metodo POST
         form = RegistroAlumno(request.POST) #Se crea el objeto form, a este objeto se le asigna el modelo RegistroAlumno
@@ -32,7 +62,7 @@ def registro_alumno(request): #Se define la funcion registro_alumno el cual es e
             no_control  = cleaned_data.get('no_control')
             nombre      = cleaned_data.get('nombre')
             apellido    = cleaned_data.get('apellido')
-            edad        = cleaned_data.get('edad')
+            fecha_nac   = cleaned_data.get('fecha_nac')
             carrera     = cleaned_data.get('carrera')
             promedio    = cleaned_data.get('promedio')
             semestre    = cleaned_data.get('semestre')
@@ -66,9 +96,9 @@ def registro_alumno(request): #Se define la funcion registro_alumno el cual es e
             # por medio del metodo POST (ver lineas de la 26 a la 35), ademas se usa el metodo title() para darle un formato
             # a pesar de que sea mayusculas o minusculas
             alumno.apellido = apellido.title()
-            #Se asigna al objeto/modelo alumno la edad obtenida por el metodo post anteriormente
+            #Se asigna al objeto/modelo alumno la fecha_nac obtenida por el metodo post anteriormente
             # por medio del metodo POST (ver lineas de la 26 a la 35)
-            alumno.edad = edad
+            alumno.fecha_nac = fecha_nac
             #Se asigna al objeto/modelo alumno la carrera obtenida por el metodo post anteriormente
             # por medio del metodo POST (ver lineas de la 26 a la 35)
             alumno.carrera = carrera
@@ -87,6 +117,8 @@ def registro_alumno(request): #Se define la funcion registro_alumno el cual es e
             usuario_alumno.save()
             # Se guarda el objeto alumno
             alumno.save()
+            #Enviar correo con nombre de usuario y contraseña
+            #enviar_datos_al_correo(email, usuario, clave)
             # Una vez creado se da por hecho que todo esta correcto y se manda a autenticar (login)
             # se crea un objeto log_alumno al cual se le asigna el usuario y contrasena obtenidos por el formulario (metodo post)
             # Como todo esta correcto no se hace una validacion (try - except )
@@ -110,12 +142,13 @@ def contacto(request): #Se define la funcion contacto el cual es el nombre de la
     # Regresa el html 'contacto' renderizado para ser visto sin variables o en otras palabras, CONTEXTO
     return render(request, 'cuentas/contacto.html')
 
+@login_required(login_url='login_alumno')
 def lista_alumnos(request): #Se define la funcion lista_alumnos el cual es el nombre de la vista a mostrar
     if not request.user.is_authenticated(): #Si el usuario no ha iniciado sesion (logeado)
         # Regresa la vista login_alumno, la vista login_alumno se encarga de mostrar el formulario
         # para poder logearse
         return login_alumno(request)
-    alumnos = Alumno.objects.order_by('nombre')
+    alumnos = Alumno.objects.order_by('no_control')
     # Regresa el html 'lista_alumnos' renderizado para ser visto y con las variables: alumnos, total_alumnos
     return render(request, 'cuentas/lista_alumnos.html', {'alumnos' : alumnos , 'total_alumnos': len(alumnos)})
 
@@ -152,16 +185,33 @@ def login_alumno(request): #Se define la funcion login_alumno el cual es el nomb
         #Regresa el html 'login' renderizado con la variable form en blanco.
         return render(request, 'cuentas/login.html', {'form' : form})
 
+@login_required(login_url='login_alumno')
 def logout_alumno(request): #Se define la funcion logout_alumno el cual es el nombre de la vista a mostrar
     logout(request) #Se usa el metodo logout() que recibe el request
     # Regresa la vista inicio y como inicio necesita request, entonces se le pasa el request de log_alumno
     return inicio(request)
 
+@login_required(login_url='login_alumno')
 def perfil_alumno(request): #Se define la funcion perfil_alumno el cual es el nombre de la vista a mostrar
     if not request.user.is_authenticated(): #Si el usuario no esta logeado
         return login_alumno(request) #Regresa la vista de login_alumno
     try: #Evalua si el usuario tiene un alumno registrado, por ejemplo: Una cuenta ADMIN no posee un alumno registrado
         alumno_user = Alumno.objects.get(user_id=request.user.pk)
+        edad = calcular_edad(alumno_user.fecha_nac)
     except ObjectDoesNotExist :
         return render(request, 'cuentas/perfil.html') #No manda objeto alumno_user ya que no existe
-    return render(request, 'cuentas/perfil.html', {'alumno' : alumno_user })
+    return render(request, 'cuentas/perfil.html', {'alumno' : alumno_user , 'edad': edad})
+
+@login_required(login_url='login_alumno')
+def editar_perfil_alumno(request):
+    usuario = request.user
+    alumno = get_object_or_404(Alumno, user=usuario)
+    if request.method == 'POST':
+        form = AlumnoForm(request.POST, instance=alumno)
+        if form.is_valid():
+            modulo = form.save(commit=False)
+            modulo.save()
+            return redirect('perfil_alumno')
+    else:
+        form = AlumnoForm(instance=alumno)
+        return render(request, 'cuentas/editar_perfil.html', {'form': form})

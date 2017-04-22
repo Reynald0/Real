@@ -1,0 +1,29 @@
+{% extends 'components/base.html' %}
+{% load staticfiles %}
+{% block encabezado %}
+	EDITAR PERFIL
+{% endblock encabezado%}
+{% block contenido %}
+	<form method="POST" class="col s12" enctype="multipart/form-data" role="form" data-toggle="validator">
+		<fieldset>
+			{% csrf_token %}
+			{{ form.non_field_errors }}
+			{% for elemento in form %}
+			    <div class="row">
+			      <div class="input-field col s12">
+			          {{ elemento }}
+			          <label for="{{ elemento.label }}" data-error="Incorrecto" data-success="Correcto!">{{ elemento.label }}</label>
+			      </div>
+			    </div>
+	  		{% endfor %}
+	  	</fieldset>
+	  	<br>
+		<div class="row">
+	      <div class="col s12 center-align">
+	      	<button type="submit" class="save btn btn-default waves-effect waves-light btn-large " href="{% url 'editar_perfil_alumno' %}">
+	      		<i class="material-icons left">spellcheck</i>
+	      		Guardar</button>
+	      </div>
+    	</div>
+	</form>
+{% endblock contenido %}

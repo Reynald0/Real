@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.utils import timezone
 from .models import Noticia
+from cuentas.views import login_alumno
 
 def noticias(request):
     if not request.user.is_authenticated(): #Si el usuario NO esta autenticado (logeado)
