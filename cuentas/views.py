@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template import Context
 from django.template.loader import get_template
-from .forms import RegistroAlumno, LogAlumno, AlumnoForm
+from .forms import RegistroAlumno, LogAlumno, AlumnoForm, CambiarPassForm
 from .models import Alumno
 from datetime import date
 
@@ -215,3 +215,36 @@ def editar_perfil_alumno(request):
     else:
         form = AlumnoForm(instance=alumno)
         return render(request, 'cuentas/editar_perfil.html', {'form': form})
+
+@login_required(login_url='login_alumno')
+def cambiar_pass(request):
+    usuario = get_object_or_404(User, id=request.user.id)
+    alumno = get_object_or_404(Alumno, user=usuario)
+    edad = calcular_edad(alumno.fecha_nac)
+    if request.method == 'POST':
+        form = CambiarPassForm(request.POST)
+        if form.is_valid():
+            cleaned_data = form.cleaned_data
+            clave_actual = cleaned_data.get('clave_actual')
+            clave_nueva = cleaned_data.get('clave_nueva')
+            confirmar_clave_nueva = cleaned_data.get('confirmar_clave_nueva')
+            if usuario.check_password(clave_actual):
+                if (clave_nueva != confirmar_clave_nueva): #Si las clave (ingresada dos veces no es IGUAL)
+                    clave_incorrecta = True
+                    mensaje = "La clave nueva y su confirmación no son iguales"
+                    return render(request, 'cuentas/cambiar_pass.html',
+                                  {'form': form, 'clave_incorrecta': clave_incorrecta, 'mensaje': mensaje})
+                usuario.set_password(clave_nueva)
+                usuario.save()
+                log_alumno = authenticate(username=usuario.username, password=clave_nueva)
+                login(request, log_alumno)
+                clave_cambiada = True
+                return render(request, 'cuentas/perfil.html', {'alumno': alumno, 'edad': edad, 'clave_cambiada': clave_cambiada})
+            else:
+                clave_incorrecta = True
+                mensaje = "Contraseña incorrecta"
+                return render(request, 'cuentas/cambiar_pass.html',
+                              {'form' : form, 'clave_incorrecta': clave_incorrecta, 'mensaje' : mensaje})
+    else:
+        form = CambiarPassForm()
+        return render(request, 'cuentas/cambiar_pass.html', {'form': form})

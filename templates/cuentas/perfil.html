@@ -4,6 +4,9 @@
 	PERFIL
 {% endblock encabezado%}
 {% block contenido %}
+    {% if clave_cambiada %}
+        <div class="card-panel green lighten-1"><i class="material-icons left">done_all</i><b>Su contraseña ha sido modificada con éxito!</b></div>
+    {% endif %}
 	{% if user.is_superuser %}
 		<div class="card-panel hoverable center yellow">
 			<p class="flow-text">
@@ -36,10 +39,16 @@
 		        </li>
 		    </ul>
 		    <div class="row">
-      			<div class="col s12 center-align">
+      			<div class="col s6 center-align">
       				<a class="waves-effect waves-light btn-large" href="{% url 'editar_perfil_alumno' %}">
       					<i class="material-icons left">mode_edit</i>
       					Editar datos
+      				</a>
+      			</div>
+                <div class="col s6 center-align">
+      				<a class="waves-effect waves-light btn-large" href="{% url 'cambiar_pass' %}">
+      					<i class="material-icons left">mode_edit</i>
+      					Cambiar contraseña
       				</a>
       			</div>
     		</div>

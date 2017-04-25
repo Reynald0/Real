@@ -61,3 +61,8 @@ class AlumnoForm(forms.ModelForm):
     class Meta:
         model = Alumno
         fields = ('carrera', 'semestre', 'promedio')
+
+class CambiarPassForm(forms.Form):
+    clave_actual = forms.CharField(min_length=5,widget=forms.PasswordInput(attrs={'id': 'clave_actual'}))
+    clave_nueva = forms.CharField(min_length=5, widget=forms.PasswordInput(attrs={'id': 'clave_nueva'}))
+    confirmar_clave_nueva = forms.CharField(min_length=5, widget=forms.PasswordInput(attrs={'id': 'confirmar_clave_nueva'}))

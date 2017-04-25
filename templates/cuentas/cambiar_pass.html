@@ -1,0 +1,11 @@
+{% extends 'components/base.html' %}
+{% load staticfiles %}
+{% block encabezado %}
+	CAMBIAR CONTRASEÑA
+{% endblock encabezado%}
+{% block contenido %}
+    {% if clave_incorrecta %}
+        <div class="card-panel yellow lighten-1"><i class="material-icons left">error</i><b>Alerta!! {{ mensaje }}.</b></div>
+    {% endif %}
+	{% include 'snippets/form.html' %}
+{% endblock contenido %}
