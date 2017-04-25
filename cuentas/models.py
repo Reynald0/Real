@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 from __future__ import unicode_literals
 
 from django.db import models
@@ -24,6 +25,6 @@ class Alumno(models.Model): #Se crea el objeto Alumno, en la base de datos es un
     promedio = models.FloatField() #Atributo promedio es tipo de dato Float (Decimal)
 
     def __str__(self): #funcion __str__ regresa un string para identificar al objeto de los demas
-        return str(self.no_control) #Regresa el no_control en forma de string
+        return u'{0} - {1} {2}'.format(self.no_control, self.nombre,self.apellido)  #Regresa el no_control en forma de string
 
 
