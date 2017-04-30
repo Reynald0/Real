@@ -9,15 +9,21 @@ class RegistroAlumno(forms.Form):
     email       = forms.EmailField(widget=forms.EmailInput(attrs={'id': 'Email', 'type': 'email', 'class':'validate'}))
     no_control  = forms.IntegerField(widget=forms.NumberInput(attrs={'id': 'No control', 'length' : '8', 'class':'validate'}))
     nombre      = forms.CharField(widget=forms.TextInput(attrs={'id': 'Nombre'}))
-    apellido    = forms.CharField(widget=forms.TextInput(attrs={'id': 'Apellido'}))
+    apellido_paterno = forms.CharField(widget=forms.TextInput(attrs={'id': 'Apellido'}))
+    apellido_materno = forms.CharField(widget=forms.TextInput(attrs={'id': 'Apellido'}))
     fecha_nac   = forms.DateField(widget=forms.DateInput(attrs={'type' : 'date', 'class': 'datepicker'}))
     carrera     = forms.ModelChoiceField(queryset=Carrera.objects.all())
     promedio    = forms.FloatField(widget=forms.NumberInput(attrs={'id': 'Promedio'}))
     semestre    = forms.IntegerField(widget=forms.NumberInput(attrs={'id': 'Semestre'}))
 
     def clean_usuario(self):
-        #Comprueba que no exista un usuario igual en la base de datos
-        usuario = str(self.cleaned_data['usuario'])
+        try:
+            usuario = str(self.cleaned_data['usuario'])
+        except Exception:
+            # Deja que se registren con caractereres especiales
+            raise forms.ValidationError('Solo se permite caracteres alfanuméricos. Letras, dígitos y @/./+/-/_ únicamente.')
+            return  usuario
+        # Comprueba que no exista un usuario igual en la base de datos
         if User.objects.filter(first_name=usuario):
             raise forms.ValidationError('El usuario ya existe!')
         return usuario

@@ -11,4 +11,5 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'', include('cuentas.urls')), #Asume que el index esta dentro de la aplicacion cuentas
     url(r'', include('noticias.urls')), #Escanea la url y cacha las url que estan en la aplicacion noticias
+    url(r'', include('documentos.urls')), # Escanea la url y cacha las url que estan en la aplicacion documentos
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

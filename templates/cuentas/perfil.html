@@ -23,7 +23,7 @@
 		        	<b>Nombre(s):</b> {{ alumno.nombre }}
 		        </li>
 		        <li class="collection-item">
-		        	<b>Apellidos:</b> {{ alumno.apellido }}
+		        	<b>Apellidos:</b> {{ alumno.apellido_paterno }} {{ alumno.apellido_materno }}
 		        </li>
 		        <li class="collection-item">
 		        	<b>Edad:</b> {{ edad }} años
@@ -38,19 +38,56 @@
 		        	<b>Promedio:</b> {{ alumno.promedio }}
 		        </li>
 		    </ul>
+        <ul class="collection with-header">
+		        <li class="collection-header"><h4>Documentos</h4></li>
+		        <li class="collection-item">
+		        	<b>Comprobante de domicilio</b>
+                    {% if comprobante_de_domicilio %}
+                        <a class="waves-effect waves-light btn" href="/media/{{ comprobante_de_domicilio.url_documento }}"
+                           target="_blank">
+                            <i class="material-icons left">mode_edit</i>
+      					    VER
+      				    </a>
+                        <a class="waves-effect waves-light btn" href="{% url 'comprobante_domicilio' %}">
+                            <i class="material-icons left">mode_edit</i>
+      					    SUBIR OTRO
+      				    </a>
+                    {% else %}
+                        No existe el documento  <a href="{% url 'comprobante_domicilio' %}">SUBIR</a>
+                    {% endif %}
+		        </li>
+		        <li class="collection-item">
+		        	<b>Credencial de estudiante</b>
+                    {% if credencial_de_estudiante %}
+                        <a href="/media/{{ credencial_de_estudiante.url_documento }}">VER</a>
+                    {% else %}
+                        No existe el documento
+                    {% endif %}
+		        </li>
+		        <li class="collection-item">
+		        	<b>Kardex</b>
+                    {% if kardex %}
+                        <a href="/media/{{ kardex.url_documento }}">VER</a>
+                    {% else %}
+                        No existe el documento
+                    {% endif %}
+		        </li>
+		    </ul>
 		    <div class="row">
-      			<div class="col s6 center-align">
+      			<div class="col s12 center-align">
       				<a class="waves-effect waves-light btn-large" href="{% url 'editar_perfil_alumno' %}">
-      					<i class="material-icons left">mode_edit</i>
+                        <i class="material-icons left">mode_edit</i>
       					Editar datos
       				</a>
       			</div>
-                <div class="col s6 center-align">
+    		</div>
+            <div class="row">
+                <div class="col s12 center-align">
       				<a class="waves-effect waves-light btn-large" href="{% url 'cambiar_pass' %}">
-      					<i class="material-icons left">mode_edit</i>
+                        <i class="material-icons left">mode_edit</i>
       					Cambiar contraseña
       				</a>
       			</div>
-    		</div>
+            </div>
 	{% endif %}
 {% endblock contenido %}

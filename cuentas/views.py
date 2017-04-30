@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template import Context
 from django.template.loader import get_template
+from documentos.models import ComprobanteDomicilio, CredencialEstudiante, Kardex
 from .forms import RegistroAlumno, LogAlumno, AlumnoForm, CambiarPassForm
 from .models import Alumno
 from datetime import date
@@ -61,7 +62,8 @@ def registro_alumno(request): #Se define la funcion registro_alumno el cual es e
             email       = cleaned_data.get('email')
             no_control  = cleaned_data.get('no_control')
             nombre      = cleaned_data.get('nombre')
-            apellido    = cleaned_data.get('apellido')
+            apellido_paterno = cleaned_data.get('apellido_paterno')
+            apellido_materno = cleaned_data.get('apellido_materno')
             fecha_nac   = cleaned_data.get('fecha_nac')
             carrera     = cleaned_data.get('carrera')
             promedio    = cleaned_data.get('promedio')
@@ -74,7 +76,7 @@ def registro_alumno(request): #Se define la funcion registro_alumno el cual es e
                 # Como ya se obtiene la variable nombre, se le asigna al atributo email del objeto usuario_alumno
                 usuario_alumno.first_name = nombre.title()
                 # Como ya se obtiene la variable apellido, se le asigna al atributo email del objeto usuario_alumno
-                usuario_alumno.last_name = apellido.title()
+                usuario_alumno.last_name = u"{0} {1}".format(apellido_materno.title(),apellido_paterno.title())
                 # Como ya se obtiene la variable email, se le asigna al atributo email del objeto usuario_alumno
                 usuario_alumno.email = email
             except IntegrityError as e: #Si el usuario ya existe manda un mensaje
@@ -95,7 +97,8 @@ def registro_alumno(request): #Se define la funcion registro_alumno el cual es e
             #Se asigna al objeto/modelo alumno el apellido obtenido por el metodo post anteriormente
             # por medio del metodo POST (ver lineas de la 26 a la 35), ademas se usa el metodo title() para darle un formato
             # a pesar de que sea mayusculas o minusculas
-            alumno.apellido = apellido.title()
+            alumno.apellido_paterno = apellido_paterno.title()
+            alumno.apellido_materno = apellido_materno.title()
             #Se asigna al objeto/modelo alumno la fecha_nac obtenida por el metodo post anteriormente
             # por medio del metodo POST (ver lineas de la 26 a la 35)
             alumno.fecha_nac = fecha_nac
@@ -193,14 +196,33 @@ def logout_alumno(request): #Se define la funcion logout_alumno el cual es el no
 
 @login_required(login_url='login_alumno')
 def perfil_alumno(request): #Se define la funcion perfil_alumno el cual es el nombre de la vista a mostrar
+    try:
+        usuario_alumno = Alumno.objects.get(user_id=request.user.id)
+    except ObjectDoesNotExist:
+        usuario_alumno = None
+    try:
+        comprobante_de_domicilio = ComprobanteDomicilio.objects.get(alumno=usuario_alumno)
+    except ObjectDoesNotExist:
+        comprobante_de_domicilio = None
+    try:
+        credencial_de_estudiante = CredencialEstudiante.objects.get(alumno=usuario_alumno)
+    except ObjectDoesNotExist:
+        credencial_de_estudiante = None
+    try:
+        kardex = Kardex.objects.get(alumno=usuario_alumno)
+    except ObjectDoesNotExist:
+        kardex = None
+
     if not request.user.is_authenticated(): #Si el usuario no esta logeado
         return login_alumno(request) #Regresa la vista de login_alumno
     try: #Evalua si el usuario tiene un alumno registrado, por ejemplo: Una cuenta ADMIN no posee un alumno registrado
         alumno_user = Alumno.objects.get(user_id=request.user.pk)
         edad = calcular_edad(alumno_user.fecha_nac)
-    except ObjectDoesNotExist :
+    except ObjectDoesNotExist:
         return render(request, 'cuentas/perfil.html') #No manda objeto alumno_user ya que no existe
-    return render(request, 'cuentas/perfil.html', {'alumno' : alumno_user , 'edad': edad})
+    return render(request, 'cuentas/perfil.html',
+                  {'alumno' : alumno_user , 'edad': edad,'comprobante_de_domicilio' : comprobante_de_domicilio,
+                   'credencial_de_estudiante' : credencial_de_estudiante, 'kardex' : kardex})
 
 @login_required(login_url='login_alumno')
 def editar_perfil_alumno(request):
