@@ -18,7 +18,8 @@
 				 <thead>
 					 <th>No. Control</th>
 					 <th>Nombre</th>
-					 <th>Apellido</th>
+					 <th>Apellido Paterno</th>
+                     <th>Apellido Materno</th>
 					 <th>Edad</th>
 					 <th>Carrera</th>
 					 <th>Semestre</th>
@@ -29,8 +30,9 @@
 					 <tr>
 						 <td>{{ alumno.no_control }}</td>
 						 <td>{{ alumno.nombre|title }}</td>
-						 <td>{{ alumno.apellido|title }}</td>
-						 <td>{{ alumno.edad }}</td>
+						 <td>{{ alumno.apellido_paterno|title }}</td>
+                         <td>{{ alumno.apellido_materno|title }}</td>
+						 <td>{{ alumno.fecha_nac }}</td>
 						 <td>{{ alumno.carrera }}</td>
 						 <td>{{ alumno.semestre }}</td>
 						 <td>{{ alumno.promedio }}</td>
