@@ -81,13 +81,13 @@ def kardex(request):
             except Exception  as e:  # Si el usuario ya existe manda un mensaje
                 archivo = Kardex.objects.create(alumno=usuario_alumno, url_documento=url_del_documento)
                 archivo.save()
-                return render(request, 'documentos/credencial_estudiante.html', {'form': form})
+                return render(request, 'documentos/kardex.html', {'form': form})
             return redirect('perfil_alumno')
         else:  # De lo contrario, el formulario no es valido
             # Regresa el html 'login' renderizado con la variable form, que es el formulario previamente rellenado
-            return render(request, 'documentos/credencial_estudiante.html', {'form': form})
+            return render(request, 'documentos/kardex.html', {'form': form})
     else: # De lo contrario, la persona esta apenas por registrarse
         # Se crea el bojeto form con el formulario LogAlumno
         form = KardexForm()
         # Regresa el html 'comprobante_domicilio' renderizado con la variable form en blanco.
-        return render(request, 'documentos/credencial_estudiante.html', {'form': form})
+        return render(request, 'documentos/kardex.html', {'form': form})

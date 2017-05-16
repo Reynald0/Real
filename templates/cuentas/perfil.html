@@ -59,17 +59,33 @@
 		        <li class="collection-item">
 		        	<b>Credencial de estudiante</b>
                     {% if credencial_de_estudiante %}
-                        <a href="/media/{{ credencial_de_estudiante.url_documento }}">VER</a>
+                        <a class="waves-effect waves-light btn" href="/media/{{ credencial_de_estudiante.url_documento }}"
+                           target="_blank">
+                            <i class="material-icons left">mode_edit</i>
+      					    VER
+      				    </a>
+                        <a class="waves-effect waves-light btn" href="{% url 'credencial_estudiante' %}">
+                            <i class="material-icons left">mode_edit</i>
+      					    SUBIR OTRO
+      				    </a>
                     {% else %}
-                        No existe el documento
+                        No existe el documento  <a href="{% url 'credencial_estudiante' %}">SUBIR</a>
                     {% endif %}
 		        </li>
 		        <li class="collection-item">
 		        	<b>Kardex</b>
                     {% if kardex %}
-                        <a href="/media/{{ kardex.url_documento }}">VER</a>
+                        <a class="waves-effect waves-light btn" href="/media/{{ kardex.url_documento }}"
+                           target="_blank">
+                            <i class="material-icons left">mode_edit</i>
+      					    VER
+      				    </a>
+                        <a class="waves-effect waves-light btn" href="{% url 'kardex' %}">
+                            <i class="material-icons left">mode_edit</i>
+      					    SUBIR OTRO
+      				    </a>
                     {% else %}
-                        No existe el documento
+                        No existe el documento  <a href="{% url 'kardex' %}">SUBIR</a>
                     {% endif %}
 		        </li>
 		    </ul>
