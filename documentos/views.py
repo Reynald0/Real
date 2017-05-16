@@ -3,7 +3,7 @@ from django.db import IntegrityError
 from django.shortcuts import render, get_object_or_404, redirect
 from documentos.forms import ComprobanteDomicilioForm, CredencialEstudianteForm, KardexForm
 from documentos.models import ComprobanteDomicilio, CredencialEstudiante, Kardex
-from cuentas.views import Alumno
+from cuentas.views import Alumno, perfil_alumno
 
 
 
@@ -24,8 +24,8 @@ def comprobante_domicilio(request):
             except Exception  as e:  # Si el usuario ya existe manda un mensaje
                 archivo = ComprobanteDomicilio.objects.create(alumno=usuario_alumno, url_documento=url_del_documento)
                 archivo.save()
-                return render(request, 'documentos/comprobante_domicilio.html', {'form': form})
-            return redirect('perfil_alumno')
+                return perfil_alumno(request, documento_subido=True)
+            return perfil_alumno(request, documento_subido=True)
         else:  # De lo contrario, el formulario no es valido
             # Regresa el html 'login' renderizado con la variable form, que es el formulario previamente rellenado
             return render(request, 'documentos/comprobante_domicilio.html', {'form': form})
@@ -52,8 +52,8 @@ def credencial_estudiante(request):
             except Exception  as e:  # Si el usuario ya existe manda un mensaje
                 archivo = CredencialEstudiante.objects.create(alumno=usuario_alumno, url_documento=url_del_documento)
                 archivo.save()
-                return render(request, 'documentos/credencial_estudiante.html', {'form': form})
-            return redirect('perfil_alumno')
+                return perfil_alumno(request, documento_subido=True)
+            return perfil_alumno(request, documento_subido=True)
         else:  # De lo contrario, el formulario no es valido
             # Regresa el html 'login' renderizado con la variable form, que es el formulario previamente rellenado
             return render(request, 'documentos/credencial_estudiante.html', {'form': form})
@@ -81,8 +81,8 @@ def kardex(request):
             except Exception  as e:  # Si el usuario ya existe manda un mensaje
                 archivo = Kardex.objects.create(alumno=usuario_alumno, url_documento=url_del_documento)
                 archivo.save()
-                return render(request, 'documentos/kardex.html', {'form': form})
-            return redirect('perfil_alumno')
+                return perfil_alumno(request, documento_subido=True)
+            return perfil_alumno(request, documento_subido=True)
         else:  # De lo contrario, el formulario no es valido
             # Regresa el html 'login' renderizado con la variable form, que es el formulario previamente rellenado
             return render(request, 'documentos/kardex.html', {'form': form})

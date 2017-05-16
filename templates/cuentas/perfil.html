@@ -7,6 +7,9 @@
     {% if clave_cambiada %}
         <div class="card-panel green lighten-1"><i class="material-icons left">done_all</i><b>Su contraseña ha sido modificada con éxito!</b></div>
     {% endif %}
+    {% if documento_subido %}
+        <div class="card-panel green lighten-1"><i class="material-icons left">done_all</i><b>El archivo se ha subido correctamente!</b></div>
+    {% endif %}
 	{% if user.is_superuser %}
 		<div class="card-panel hoverable center yellow">
 			<p class="flow-text">
@@ -45,15 +48,18 @@
                     {% if comprobante_de_domicilio %}
                         <a class="waves-effect waves-light btn" href="/media/{{ comprobante_de_domicilio.url_documento }}"
                            target="_blank">
-                            <i class="material-icons left">mode_edit</i>
+                            <i class="material-icons left">visibility</i>
       					    VER
       				    </a>
                         <a class="waves-effect waves-light btn" href="{% url 'comprobante_domicilio' %}">
-                            <i class="material-icons left">mode_edit</i>
+                            <i class="material-icons left">settings_backup_restore</i>
       					    SUBIR OTRO
       				    </a>
                     {% else %}
-                        No existe el documento  <a href="{% url 'comprobante_domicilio' %}">SUBIR</a>
+                         <a class="waves-effect waves-light btn" href="{% url 'comprobante_domicilio' %}">
+                            <i class="material-icons left">mode_edit</i>
+      					    SUBIR
+      				    </a>
                     {% endif %}
 		        </li>
 		        <li class="collection-item">
@@ -61,15 +67,18 @@
                     {% if credencial_de_estudiante %}
                         <a class="waves-effect waves-light btn" href="/media/{{ credencial_de_estudiante.url_documento }}"
                            target="_blank">
-                            <i class="material-icons left">mode_edit</i>
+                            <i class="material-icons left">visibility</i>
       					    VER
       				    </a>
                         <a class="waves-effect waves-light btn" href="{% url 'credencial_estudiante' %}">
-                            <i class="material-icons left">mode_edit</i>
+                            <i class="material-icons left">settings_backup_restore</i>
       					    SUBIR OTRO
       				    </a>
                     {% else %}
-                        No existe el documento  <a href="{% url 'credencial_estudiante' %}">SUBIR</a>
+                       <a class="waves-effect waves-light btn" href="{% url 'credencial_estudiante' %}">
+                            <i class="material-icons left">navigation</i>
+      					    SUBIR
+      				    </a>
                     {% endif %}
 		        </li>
 		        <li class="collection-item">
@@ -77,15 +86,18 @@
                     {% if kardex %}
                         <a class="waves-effect waves-light btn" href="/media/{{ kardex.url_documento }}"
                            target="_blank">
-                            <i class="material-icons left">mode_edit</i>
+                            <i class="material-icons left">visibility</i>
       					    VER
       				    </a>
                         <a class="waves-effect waves-light btn" href="{% url 'kardex' %}">
-                            <i class="material-icons left">mode_edit</i>
+                            <i class="material-icons left">settings_backup_restore</i>
       					    SUBIR OTRO
       				    </a>
                     {% else %}
-                        No existe el documento  <a href="{% url 'kardex' %}">SUBIR</a>
+                       <a class="waves-effect waves-light btn" href="{% url 'kardex' %}">
+                            <i class="material-icons left">navigation</i>
+      					    SUBIR
+      				    </a>
                     {% endif %}
 		        </li>
 		    </ul>

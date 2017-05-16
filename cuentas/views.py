@@ -195,7 +195,7 @@ def logout_alumno(request): #Se define la funcion logout_alumno el cual es el no
     return inicio(request)
 
 @login_required(login_url='login_alumno')
-def perfil_alumno(request): #Se define la funcion perfil_alumno el cual es el nombre de la vista a mostrar
+def perfil_alumno(request, documento_subido=False): #Se define la funcion perfil_alumno el cual es el nombre de la vista a mostrar
     try:
         usuario_alumno = Alumno.objects.get(user_id=request.user.id)
     except ObjectDoesNotExist:
@@ -222,7 +222,7 @@ def perfil_alumno(request): #Se define la funcion perfil_alumno el cual es el no
         return render(request, 'cuentas/perfil.html') #No manda objeto alumno_user ya que no existe
     return render(request, 'cuentas/perfil.html',
                   {'alumno' : alumno_user , 'edad': edad,'comprobante_de_domicilio' : comprobante_de_domicilio,
-                   'credencial_de_estudiante' : credencial_de_estudiante, 'kardex' : kardex})
+                   'credencial_de_estudiante' : credencial_de_estudiante, 'kardex' : kardex, 'documento_subido' : documento_subido})
 
 @login_required(login_url='login_alumno')
 def editar_perfil_alumno(request):
