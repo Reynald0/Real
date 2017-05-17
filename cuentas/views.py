@@ -270,3 +270,11 @@ def cambiar_pass(request):
     else:
         form = CambiarPassForm()
         return render(request, 'cuentas/cambiar_pass.html', {'form': form})
+
+@login_required(login_url='login_alumno')
+def solicitar_beca(request):
+    usuario = get_object_or_404(User, id=request.user.id)
+    alumno = get_object_or_404(Alumno, user=usuario)
+    alumno.estado_solicitud_id = 2 #Estado 2 es EN EVALUACION... Consultar la tabla estado_solicitud
+    alumno.save()
+    return redirect('perfil_alumno')
