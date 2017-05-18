@@ -1,17 +1,16 @@
 import os
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, get_object_or_404
-
-from Real import settings
+from django.shortcuts import render, get_object_or_404, redirect
 from documentos.forms import ComprobanteDomicilioForm, CredencialEstudianteForm, KardexForm
 from documentos.models import ComprobanteDomicilio, CredencialEstudiante, Kardex
 from cuentas.views import Alumno, perfil_alumno
 
 
-
 @login_required(login_url='login_alumno')
 def comprobante_domicilio(request):
     usuario_alumno = get_object_or_404(Alumno, user=request.user)
+    if usuario_alumno.estado_solicitud_id >= 2: #No puede editar nada una vez en evaluacion, rechazado o aceptado
+        return redirect('perfil_alumno')
     if request.method == 'POST':  # Si el formulario envia algo con el metodo POST
         form = ComprobanteDomicilioForm(request.POST,
                           request.FILES)  # Se crea el objeto form, a este objeto se le asigna el modelo LogAlumno
@@ -41,11 +40,12 @@ def comprobante_domicilio(request):
 @login_required(login_url='login_alumno')
 def credencial_estudiante(request):
     usuario_alumno = get_object_or_404(Alumno, user= request.user)
+    if usuario_alumno.estado_solicitud_id >= 2: #No puede editar nada una vez en evaluacion, rechazado o aceptado
+        return redirect('perfil_alumno')
     if request.method == 'POST':  # Si el formulario envia algo con el metodo POST
         form = CredencialEstudianteForm(request.POST, request.FILES)  # Se crea el objeto form, a este objeto se le asigna el modelo LogAlumno
         if form.is_valid():  # Si el formulario es valido
             cleaned_data = form.cleaned_data
-            usuario = request.user
             url_del_documento = cleaned_data.get('url_documento')  # Se obtiene el valor del campo usuario
             # Verifica que se pueda registrar el archivo
             try:
@@ -71,11 +71,12 @@ def credencial_estudiante(request):
 @login_required(login_url='login_alumno')
 def kardex(request):
     usuario_alumno = get_object_or_404(Alumno, user= request.user)
+    if usuario_alumno.estado_solicitud_id >= 2: #No puede editar nada una vez en evaluacion, rechazado o aceptado
+        return redirect('perfil_alumno')
     if request.method == 'POST':  # Si el formulario envia algo con el metodo POST
         form = KardexForm(request.POST, request.FILES)  # Se crea el objeto form, a este objeto se le asigna el modelo LogAlumno
         if form.is_valid():  # Si el formulario es valido
             cleaned_data = form.cleaned_data
-            usuario = request.user
             url_del_documento = cleaned_data.get('url_documento')  # Se obtiene el valor del campo usuario
             # Verifica que se pueda registrar el archivo
             try:
