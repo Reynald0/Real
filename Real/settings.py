@@ -115,7 +115,6 @@ STATIC_URL = '/static/'
 # Ademas es la que reconocera el servidor al momento de ejecutar collectstatic
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-MEDIA_URL = '/home/Reynald0/Real/media' # Para produccion
-#MEDIA_URL = '/media/'
+MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
