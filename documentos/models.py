@@ -27,7 +27,7 @@ def ubicacion_credencial_estudiante(instace, filename):
 
 class CredencialEstudiante(models.Model):
     alumno = models.ForeignKey(Alumno, on_delete=models.CASCADE)
-    url_documento = models.FileField(upload_to=ubicacion_credencial_estudiante)
+    url_documento = models.FileField(upload_to=ubicacion_credencial_estudiante, validators=[validate_file_extension])
 
     def __str__(self):  # funcion __str__ regresa un string para identificar al objeto de los demas
         return str(self.alumno.no_control) + " credencial de estudiante"  # Regresa el numero de control del alumno
@@ -41,7 +41,7 @@ def ubicacion_kardex(instace, filename):
 
 class Kardex(models.Model):
     alumno = models.ForeignKey(Alumno, on_delete=models.CASCADE)
-    url_documento = models.FileField(upload_to=ubicacion_kardex)
+    url_documento = models.FileField(upload_to=ubicacion_kardex, validators=[validate_file_extension])
 
     def __str__(self):  # funcion __str__ regresa un string para identificar al objeto de los demas
         return str(self.alumno.no_control) + " kardex"  # Regresa el numero de control del alumno
