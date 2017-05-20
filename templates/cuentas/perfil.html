@@ -10,6 +10,9 @@
     {% if documento_subido %}
         <div class="card-panel green lighten-1"><i class="material-icons left">done_all</i><b>El archivo se ha subido correctamente!</b></div>
     {% endif %}
+    {% if falta_documento %}
+        <div class="card-panel amber darken-1"><i class="material-icons left">not_interested</i><b>Debe subir todos los documentos antes de solicitar beca!</b></div>
+    {% endif %}
 	{% if user.is_superuser %}
 		<div class="card-panel hoverable center yellow">
 			<p class="flow-text">
