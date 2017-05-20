@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 from cuentas.models import Alumno
+from .validators import validate_file_extension
 
 
 def ubicacion_comprobante_domicilio(instace, filename):
@@ -11,7 +12,7 @@ def ubicacion_comprobante_domicilio(instace, filename):
 
 class ComprobanteDomicilio(models.Model):
     alumno = models.ForeignKey(Alumno, on_delete=models.CASCADE)
-    url_documento = models.FileField(upload_to=ubicacion_comprobante_domicilio)
+    url_documento = models.FileField(upload_to=ubicacion_comprobante_domicilio, validators=[validate_file_extension])
 
     def __str__(self):  # funcion __str__ regresa un string para identificar al objeto de los demas
         return str(self.alumno.no_control) + " comprobante de domicilio"  # Regresa el numero de control del alumno
