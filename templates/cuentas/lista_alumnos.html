@@ -6,36 +6,48 @@
 {% block contenido %}
 	<div class="card-panel yellow lighten-1">
 		<h4 class="flow-text center-align">
-			 {% if total_alumnos > 1%}
-				 <b>{{ total_alumnos }} Alumnos registrados</b>
-			 {% else %}
-				 <b>{{ total_alumnos }} Alumno registrado</b>
-			 {% endif %}
-			 <i class="material-icons">mode_edit</i>
+            <b>Alumnos registrados</b> {{ total_alumnos }} | <b>Alumnos en espera</b> {{ alumnos_en_espera }}
 		</h4>
 	</div>
 	<table class="highlight centered responsive-table">
 				 <thead>
 					 <th>No. Control</th>
-					 <th>Nombre</th>
-					 <th>Apellido Paterno</th>
-                     <th>Apellido Materno</th>
-
-					 <th>Carrera</th>
+					 <th>Alumno</th>
+                     <th>Carrera</th>
 					 <th>Semestre</th>
 					 <th>Promedio</th>
+                     <th>Solicitud</th>
+                     <th>Documentos</th>
+                     <th>Accion</th>
 				 </thead>
 				 <tbody>
 					 {% for alumno in alumnos %}
-					 <tr>
-						 <td>{{ alumno.no_control }}</td>
-						 <td>{{ alumno.nombre|title }}</td>
-						 <td>{{ alumno.apellido_paterno|title }}</td>
-                         <td>{{ alumno.apellido_materno|title }}</td>
-
-						 <td>{{ alumno.carrera }}</td>
-						 <td>{{ alumno.semestre }}</td>
-						 <td>{{ alumno.promedio }}</td>
+					    <tr>
+                             <td>{{ alumno.no_control }}</td>
+                             <td>{{ alumno.nombre|title }} {{ alumno.apellido_paterno|title }} {{ alumno.apellido_materno|title }}</td>
+                             <td>{{ alumno.carrera }}</td>
+                             <td>{{ alumno.semestre }}</td>
+                             <td>{{ alumno.promedio }}</td>
+                             {% if alumno.estado_solicitud_id == 2 %}
+                                 <td>
+                                     <b>
+                                        {{ alumno.estado_solicitud }}
+                                     </b>
+                                 </td>
+                                 <td>
+                                    <a href="#">Comprobante Domicilio</a><br/>
+                                    <a href="#">Credencial Estudiante</a><br/>
+                                    <a href="#">Kardex</a>
+                                 </td>
+                                 <td>
+                                    <a href="#">APROBAR</a>
+                                 </td>
+                             {% else %}
+                                 <td>
+                                    {{ alumno.estado_solicitud }}
+                                 </td>
+                                 <td></td>
+                             {% endif %}
 						 </tr>
 					 {% endfor %}
 				 </tbody>

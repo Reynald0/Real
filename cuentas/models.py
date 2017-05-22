@@ -28,7 +28,7 @@ class Alumno(models.Model): #Se crea el objeto Alumno, en la base de datos es un
     carrera = models.ForeignKey(Carrera, on_delete=models.CASCADE) 
     semestre = models.IntegerField() #Atributo semestre es tipo de dato Integer
     promedio = models.FloatField() #Atributo promedio es tipo de dato Float (Decimal)
-    estado_solicitud = models.OneToOneField(Estado_Solicitud, on_delete=models.CASCADE, default=1) # 1 --> en proceso
+    estado_solicitud = models.ForeignKey(Estado_Solicitud, on_delete=models.CASCADE, default=1) # 1 --> en proceso
     #revisar la tabla estado solicitud
 
     def __str__(self): #funcion __str__ regresa un string para identificar al objeto de los demas

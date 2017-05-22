@@ -11,7 +11,7 @@ class RegistroAlumno(forms.Form):
     nombre      = forms.CharField(widget=forms.TextInput(attrs={'id': 'Nombre'}))
     apellido_paterno = forms.CharField(widget=forms.TextInput(attrs={'id': 'Apellido'}))
     apellido_materno = forms.CharField(widget=forms.TextInput(attrs={'id': 'Apellido'}))
-    fecha_nac   = forms.DateField(widget=forms.DateInput(attrs={'type' : 'date', 'class': 'datepicker'}))
+    fecha_nac   = forms.DateField(widget=forms.DateInput(attrs={'type': 'date', 'class': 'datepicker'}))
     carrera     = forms.ModelChoiceField(queryset=Carrera.objects.all())
     promedio    = forms.FloatField(widget=forms.NumberInput(attrs={'id': 'Promedio'}))
     semestre    = forms.IntegerField(widget=forms.NumberInput(attrs={'id': 'Semestre'}))

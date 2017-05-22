@@ -40,19 +40,33 @@
                 Noticias
               </a>
             </li>
-            <li>
-              <a href="{% url 'lista_alumnos' %}">
-                <i class="material-icons right">view_list</i>
-                Lista
-              </a>
-            </li>
-            <!-- Dropdown Trigger -->
-            <li>
-              <a class="dropdown-button" data-activates="dropdown">
-                Perfil
-                <i class="material-icons right">arrow_drop_down</i>
-              </a>
-            </li>  <!--Usuario logeado -->
+            {% if user.is_superuser %}
+                <li>
+                    <a href="{% url 'lista_alumnos' %}">
+                        <i class="material-icons right">view_list</i>
+                        Lista
+                     </a>
+                </li>
+                 <li>
+                    <a href="/admin">
+                        <i class="material-icons right">view_list</i>
+                        Administrar
+                     </a>
+                </li>
+                <li>
+                    <a href="{% url 'logout_alumno' %}">
+                        <i class="material-icons right">view_list</i>
+                        Salir
+                    </a>
+                </li>
+            {% else %}
+                <li>
+                    <a class="dropdown-button" data-activates="dropdown">
+                        Perfil
+                        <i class="material-icons right">arrow_drop_down</i>
+                    </a>
+                </li> <!--Usuario logeado -->
+            {% endif %}
           {% else %} <!--Usuario no logueado -->
             <li>
               <a href="{% url 'registro' %}">
@@ -94,18 +108,33 @@
                 Noticias
               </a>
             </li>
-            <li>
-              <a href="{% url 'lista_alumnos' %}">
-                <i class="material-icons right">view_list</i>
-                Lista
-              </a>
-            </li>
-          <li>
-            <a class="dropdown-button" data-activates="dropdown-mobile">
-              Perfil
-              <i class="material-icons right">arrow_drop_down</i>
-            </a>
-          </li> <!--Usuario logeado -->
+            {% if user.is_superuser %}
+                <li>
+                    <a href="{% url 'lista_alumnos' %}">
+                        <i class="material-icons right">view_list</i>
+                        Lista
+                     </a>
+                </li>
+                <li>
+                    <a href="/admin">
+                        <i class="material-icons right">view_list</i>
+                        Administrar
+                     </a>
+                </li>
+                <li>
+                    <a href="{% url 'logout_alumno' %}">
+                        <i class="material-icons right">view_list</i>
+                        Salir
+                    </a>
+                </li>
+            {% else %}
+                <li>
+                    <a class="dropdown-button" data-activates="dropdown-mobile">
+                        Perfil
+                        <i class="material-icons right">arrow_drop_down</i>
+                    </a>
+                </li> <!--Usuario logeado -->
+            {% endif %}
           {% else %} <!--Usuario no logueado -->
             <li>
               <a href="{% url 'registro' %}">

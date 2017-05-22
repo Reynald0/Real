@@ -38,6 +38,7 @@ def calcular_edad(fecha_nac):
     return edad
 
 
+
 def inicio(request): #Se define la funcion inicio el cual es el nombre de la vista a mostrar
     # Regresa el html 'inicio' unicado en la carpeta templates/cuentas de la aplicacion cuentas,
     # es decir, la ruta es /app_name/templates/app_name(good practice)/X.html
@@ -147,13 +148,15 @@ def contacto(request): #Se define la funcion contacto el cual es el nombre de la
 
 @login_required(login_url='login_alumno')
 def lista_alumnos(request): #Se define la funcion lista_alumnos el cual es el nombre de la vista a mostrar
-    if not request.user.is_authenticated(): #Si el usuario no ha iniciado sesion (logeado)
-        # Regresa la vista login_alumno, la vista login_alumno se encarga de mostrar el formulario
-        # para poder logearse
-        return login_alumno(request)
-    alumnos = Alumno.objects.order_by('no_control')
-    # Regresa el html 'lista_alumnos' renderizado para ser visto y con las variables: alumnos, total_alumnos
-    return render(request, 'cuentas/lista_alumnos.html', {'alumnos' : alumnos , 'total_alumnos': len(alumnos)})
+    if request.user.is_superuser: #Si el usuario es super usuario
+        alumnos = Alumno.objects.order_by('no_control')
+        alumnos_en_espera = Alumno.objects.order_by('no_control').filter(estado_solicitud__id=2)
+        # Regresa el html 'lista_alumnos' renderizado para ser visto y con las variables: alumnos, total_alumnos
+        return render(request, 'cuentas/lista_alumnos.html', {'alumnos': alumnos, 'total_alumnos': len(alumnos),
+                               'alumnos_en_espera' : len(alumnos_en_espera)})
+    else:
+        return redirect('perfil_alumno')
+
 
 def login_alumno(request): #Se define la funcion login_alumno el cual es el nombre de la vista a mostrar
     error = False
