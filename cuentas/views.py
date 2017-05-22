@@ -195,7 +195,7 @@ def login_alumno(request): #Se define la funcion login_alumno el cual es el nomb
 def logout_alumno(request): #Se define la funcion logout_alumno el cual es el nombre de la vista a mostrar
     logout(request) #Se usa el metodo logout() que recibe el request
     # Regresa la vista inicio y como inicio necesita request, entonces se le pasa el request de log_alumno
-    return inicio(request)
+    return redirect('inicio')
 
 @login_required(login_url='login_alumno')
 def perfil_alumno(request, documento_subido=False, falta_documento=False): #Se define la funcion perfil_alumno el cual es el nombre de la vista a mostrar
