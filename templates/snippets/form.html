@@ -20,7 +20,7 @@
           {% if error %}
             <a href="javascript:window.history.back();" class="waves-effect waves-light btn" role="button"><i class="material-icons left">assignment_return</i>Regresar</a>
           {% else %}
-            <a href="{% url 'inicio' %}" class="btn btn-default" role="button"><i class="material-icons left">verified_user</i>Entendido</a>
+            <a href="{% url 'perfil_alumno' %}" class="btn btn-default" role="button"><i class="material-icons left">verified_user</i>Entendido</a>
           {% endif %}
         {% else %}
         <button class="btn waves-effect waves-light" type="submit" name="bHecho">Confirmar
