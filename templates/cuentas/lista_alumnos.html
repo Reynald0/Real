@@ -19,7 +19,7 @@
 					 <th>Promedio</th>
                      <th>Solicitud</th>
                      <th>Documentos</th>
-                     <th>Accion</th>
+                     <th colspan="2">Accion</th>
 				 </thead>
 				 <tbody>
 					 {% for alumno in alumnos %}
@@ -37,23 +37,41 @@
                                  </td>
                                  <td>
                                      <!-- Dropdown Trigger -->
-                                      <a class='dropdown-button btn' href='#' data-activates='dropdown{{ forloop.counter }}'>Documentos</a>
+                                      <a class='dropdown-button btn blue' href='#' data-activates='dropdown{{ forloop.counter }}'>Documentos</a>
                                       <!-- Dropdown Structure -->
                                       <ul id='dropdown{{ forloop.counter }}' class='dropdown-content'>
-                                        <li><a target="_blank" href="/media/{{ diccionario_documentos|get_comprobante_domicilio:alumno.no_control  }}">Comprobante Domicilio</a><br/></li>
+                                        <li>
+                                            <a target="_blank" href="/media/{{ diccionario_documentos|get_comprobante_domicilio:alumno.no_control }}">
+                                                Comprobante de domicilio
+                                            </a>
+                                        </li>
                                         <li class="divider"></li>
-                                        <li><a target="_blank" href="/media/{{ diccionario_documentos|get_credencial_estudiante:alumno.no_control  }}">Credencial Estudiante</a><br/></li>
+                                        <li>
+                                            <a target="_blank" href="/media/{{ diccionario_documentos|get_credencial_estudiante:alumno.no_control }}">
+                                                Credencial de estudiante
+                                            </a>
+                                        </li>
                                         <li class="divider"></li>
-                                        <li><a target="_blank" href="/media/{{ diccionario_documentos|get_kardex:alumno.no_control  }}">Kardex</a></li>
+                                        <li>
+                                            <a target="_blank" href="/media/{{ diccionario_documentos|get_kardex:alumno.no_control }}">
+                                                Kardex
+                                            </a></li>
+                                        <li class="divider">
+                                        </li>
+                                        <li><a>Salir</a></li>
                                       </ul>
                                  </td>
                                  <td>
-                                   <a class="btn-floating"><i class="material-icons">thumb_up</i></a>
+                                   <a href="#APROBADO" class="btn-floating  green accent-4"><i class="material-icons">thumb_up</i></a>
+                                 </td>
+                                 <td>
+                                   <a href="#NO_APROBADO" class="btn-floating red accent-4"><i class="material-icons">thumb_down</i></a>
                                  </td>
                              {% else %}
                                  <td>
                                     {{ alumno.estado_solicitud }}
                                  </td>
+                                 <td></td>
                                  <td></td>
                              {% endif %}
 						 </tr>
