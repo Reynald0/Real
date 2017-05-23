@@ -17,6 +17,10 @@ urlpatterns = [
     url(r'^perfil/cambiar_pass/$', views.cambiar_pass, name='cambiar_pass'),
     url(r'^contacto/$', views.contacto, name='contacto'),
     url(r'^lista_alumnos/$', views.lista_alumnos, name='lista_alumnos'),
+    url(r'^lista_alumnos/en_proceso/', views.lista_alumnos_en_proceso, name='lista_alumnos_en_proceso'),
+    url(r'^lista_alumnos/en_evaluacion/', views.lista_alumnos_en_evaluacion, name='lista_alumnos_en_evaluacion'),
+    url(r'^lista_alumnos/aprobados/', views.lista_alumnos_aprobados, name='lista_alumnos_aprobados'),
+    url(r'^lista_alumnos/no_aprobados/', views.lista_alumnos_no_aprobados, name='lista_alumnos_no_aprobados'),
     url(r'^lista_alumnos/aprobar/(?P<matricula>[0-9]+)$', views.aprobar_alumno, name='aprobar_alumno'),
     url(r'^lista_alumnos/no_aprobar/(?P<matricula>[0-9]+)$', views.no_aprobar_alumno, name='no_aprobar_alumno'),
 ]

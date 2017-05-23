@@ -147,9 +147,10 @@ def contacto(request): #Se define la funcion contacto el cual es el nombre de la
     return render(request, 'cuentas/contacto.html')
 
 @login_required(login_url='login_alumno')
-def lista_alumnos(request): #Se define la funcion lista_alumnos el cual es el nombre de la vista a mostrar
+def lista_alumnos(request, alumnos=Alumno.objects.order_by('no_control')): #Se define la funcion lista_alumnos el cual es el nombre de la vista a mostrar
     if request.user.is_superuser: #Si el usuario es super usuario
-        alumnos = Alumno.objects.order_by('no_control')
+        total_alumnos = len(Alumno.objects.all())
+        alumnos_en_proceso = Alumno.objects.order_by('no_control').filter(estado_solicitud__id=1)
         alumnos_en_espera = Alumno.objects.order_by('no_control').filter(estado_solicitud__id=2)
         alumnos_aprobados = Alumno.objects.order_by('no_control').filter(estado_solicitud__id=3)
         alumnos_no_aprobados = Alumno.objects.order_by('no_control').filter(estado_solicitud__id=4)
@@ -163,12 +164,32 @@ def lista_alumnos(request): #Se define la funcion lista_alumnos el cual es el no
                                               str(documento_kardex.url_documento)]
 
         # Regresa el html 'lista_alumnos' renderizado para ser visto y con las variables: alumnos, total_alumnos
-        return render(request, 'cuentas/lista_alumnos.html', {'alumnos': alumnos, 'total_alumnos': len(alumnos),
+        return render(request, 'cuentas/lista_alumnos.html', {'alumnos': alumnos, 'total_alumnos': total_alumnos,
                                'alumnos_en_espera' : len(alumnos_en_espera), 'diccionario_documentos': diccionario_documentos,
-                               'alumnos_aprobados': len(alumnos_aprobados), 'alumnos_no_aprobados': len(alumnos_no_aprobados)})
+                               'alumnos_en_proceso': len(alumnos_en_proceso), 'alumnos_aprobados': len(alumnos_aprobados),
+                               'alumnos_no_aprobados': len(alumnos_no_aprobados)})
     else:
         return redirect('perfil_alumno')
 
+@login_required(login_url='login_alumno')
+def lista_alumnos_en_proceso(request):
+    alumnos_en_proceso = Alumno.objects.filter(estado_solicitud__id=1).order_by('no_control')
+    return lista_alumnos(request, alumnos_en_proceso)
+
+@login_required(login_url='login_alumno')
+def lista_alumnos_en_evaluacion(request):
+    alumnos_en_evaluacion = Alumno.objects.filter(estado_solicitud__id=2).order_by('no_control')
+    return lista_alumnos(request, alumnos_en_evaluacion)
+
+@login_required(login_url='login_alumno')
+def lista_alumnos_aprobados(request):
+    alumnos_aprobados = Alumno.objects.filter(estado_solicitud__id=3).order_by('no_control')
+    return lista_alumnos(request, alumnos_aprobados)
+
+@login_required(login_url='login_alumno')
+def lista_alumnos_no_aprobados(request):
+    alumnos_no_aprobados = Alumno.objects.filter(estado_solicitud__id=4).order_by('no_control')
+    return lista_alumnos(request, alumnos_no_aprobados)
 
 def login_alumno(request): #Se define la funcion login_alumno el cual es el nombre de la vista a mostrar
     error = False
@@ -326,6 +347,8 @@ def aprobar_alumno(request, matricula):
         alumno.estado_solicitud_id = 3
         alumno.save()
         return redirect('lista_alumnos')
+    else:
+        return redirect('perfil_alumno')
 
 @login_required(login_url='login_alumno')
 def no_aprobar_alumno(request, matricula):
@@ -334,3 +357,5 @@ def no_aprobar_alumno(request, matricula):
         alumno.estado_solicitud_id = 4
         alumno.save()
         return redirect('lista_alumnos')
+    else:
+        return redirect('perfil_alumno')
