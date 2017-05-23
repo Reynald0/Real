@@ -151,9 +151,18 @@ def lista_alumnos(request): #Se define la funcion lista_alumnos el cual es el no
     if request.user.is_superuser: #Si el usuario es super usuario
         alumnos = Alumno.objects.order_by('no_control')
         alumnos_en_espera = Alumno.objects.order_by('no_control').filter(estado_solicitud__id=2)
+        diccionario_documentos = {}
+        for alumno in alumnos_en_espera:
+            documento_comprobante_domicilio = ComprobanteDomicilio.objects.get(alumno=alumno)
+            documento_credencial_estudiante = CredencialEstudiante.objects.get(alumno=alumno)
+            documento_kardex = Kardex.objects.get(alumno=alumno)
+            diccionario_documentos[alumno.no_control] = [str(documento_comprobante_domicilio.url_documento),
+                                              str(documento_credencial_estudiante.url_documento),
+                                              str(documento_kardex.url_documento)]
+
         # Regresa el html 'lista_alumnos' renderizado para ser visto y con las variables: alumnos, total_alumnos
         return render(request, 'cuentas/lista_alumnos.html', {'alumnos': alumnos, 'total_alumnos': len(alumnos),
-                               'alumnos_en_espera' : len(alumnos_en_espera)})
+                               'alumnos_en_espera' : len(alumnos_en_espera), 'diccionario_documentos': diccionario_documentos})
     else:
         return redirect('perfil_alumno')
 

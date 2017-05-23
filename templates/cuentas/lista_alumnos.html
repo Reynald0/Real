@@ -1,5 +1,6 @@
 {% extends 'components/base.html' %}
 {% load staticfiles %}
+{% load mis_filtros %}
 {% block encabezado %}
 	LISTA
 {% endblock encabezado%}
@@ -35,9 +36,9 @@
                                      </b>
                                  </td>
                                  <td>
-                                    <a href="#">Comprobante Domicilio</a><br/>
-                                    <a href="#">Credencial Estudiante</a><br/>
-                                    <a href="#">Kardex</a>
+                                    <a target="_blank" href="{{ MEDIA_URL }}{{ diccionario_documentos|get_comprobante_domicilio:alumno.no_control  }}">Comprobante Domicilio</a><br/>
+                                    <a target="_blank" href="{{ MEDIA_URL }}{{ diccionario_documentos|get_credencial_estudiante:alumno.no_control  }}">Credencial Estudiante</a><br/>
+                                    <a target="_blank" href="{{ MEDIA_URL }}{{ diccionario_documentos|get_kardex:alumno.no_control  }}">Kardex</a>
                                  </td>
                                  <td>
                                     <a href="#">APROBAR</a>
