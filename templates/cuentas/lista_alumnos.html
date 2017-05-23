@@ -5,11 +5,13 @@
 	LISTA
 {% endblock encabezado%}
 {% block contenido %}
-	<div class="card-panel yellow lighten-1">
-		<h4 class="flow-text center-align">
-            <b>Alumnos registrados</b> {{ total_alumnos }} | <b>Alumnos en espera</b> {{ alumnos_en_espera }}
-		</h4>
-	</div>
+    <ul class="collection with-header">
+      <li class="collection-header"><h4>Resumen</h4></li>
+      <li class="collection-item"><b>Alumnos registrados:  </b> {{ total_alumnos }} </li>
+      <li class="collection-item"><b>Alumnos en espera:    </b> {{ alumnos_en_espera }}</li>
+      <li class="collection-item"><b>Alumnos aprobados:    </b> {{ alumnos_aprobados }}</li>
+      <li class="collection-item"><b>Alumnos no aprobados: </b> {{ alumnos_no_aprobados }}</li>
+    </ul>
 	<table class="highlight centered responsive-table">
 				 <thead>
 					 <th>No. Control</th>
@@ -61,12 +63,24 @@
                                         <li><a>Salir</a></li>
                                       </ul>
                                  </td>
-                                 <td>
-                                   <a href="#APROBADO" class="btn-floating  green accent-4"><i class="material-icons">thumb_up</i></a>
+                                 <td><!-- Boton aprobar alumno -->
+                                   <a href="{% url 'aprobar_alumno' matricula=alumno.no_control %}" class="btn-floating  green accent-4"><i class="material-icons">thumb_up</i></a>
                                  </td>
-                                 <td>
-                                   <a href="#NO_APROBADO" class="btn-floating red accent-4"><i class="material-icons">thumb_down</i></a>
+                                 <td><!-- Boton no aprobar alumno -->
+                                   <a href="{% url 'no_aprobar_alumno' matricula=alumno.no_control %}" class="btn-floating red accent-4"><i class="material-icons">thumb_down</i></a>
                                  </td>
+                             {% elif alumno.estado_solicitud_id == 3 %}<!-- Alumno aprobado -->
+                                 <td>
+                                    <b class='green-text text-accent-4'>{{ alumno.estado_solicitud }}</b>
+                                 </td>
+                                 <td></td>
+                                 <td></td>
+                             {% elif alumno.estado_solicitud_id == 4 %}<!-- Alumno no aprobado -->
+                                 <td>
+                                    <b class='red-text text-accent-4'>{{ alumno.estado_solicitud }}</b>
+                                 </td>
+                                 <td></td>
+                                 <td></td>
                              {% else %}
                                  <td>
                                     {{ alumno.estado_solicitud }}

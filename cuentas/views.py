@@ -151,6 +151,8 @@ def lista_alumnos(request): #Se define la funcion lista_alumnos el cual es el no
     if request.user.is_superuser: #Si el usuario es super usuario
         alumnos = Alumno.objects.order_by('no_control')
         alumnos_en_espera = Alumno.objects.order_by('no_control').filter(estado_solicitud__id=2)
+        alumnos_aprobados = Alumno.objects.order_by('no_control').filter(estado_solicitud__id=3)
+        alumnos_no_aprobados = Alumno.objects.order_by('no_control').filter(estado_solicitud__id=4)
         diccionario_documentos = {}
         for alumno in alumnos_en_espera:
             documento_comprobante_domicilio = ComprobanteDomicilio.objects.get(alumno=alumno)
@@ -162,7 +164,8 @@ def lista_alumnos(request): #Se define la funcion lista_alumnos el cual es el no
 
         # Regresa el html 'lista_alumnos' renderizado para ser visto y con las variables: alumnos, total_alumnos
         return render(request, 'cuentas/lista_alumnos.html', {'alumnos': alumnos, 'total_alumnos': len(alumnos),
-                               'alumnos_en_espera' : len(alumnos_en_espera), 'diccionario_documentos': diccionario_documentos})
+                               'alumnos_en_espera' : len(alumnos_en_espera), 'diccionario_documentos': diccionario_documentos,
+                               'alumnos_aprobados': len(alumnos_aprobados), 'alumnos_no_aprobados': len(alumnos_no_aprobados)})
     else:
         return redirect('perfil_alumno')
 
@@ -314,3 +317,20 @@ def solicitar_beca(request):
     alumno.estado_solicitud_id = 2 #Estado 2 es EN EVALUACION... Consultar la tabla estado_solicitud
     alumno.save()
     return redirect('perfil_alumno')
+
+
+@login_required(login_url='login_alumno')
+def aprobar_alumno(request, matricula):
+    if request.user.is_superuser:
+        alumno = get_object_or_404(Alumno, no_control=matricula)
+        alumno.estado_solicitud_id = 3
+        alumno.save()
+        return redirect('lista_alumnos')
+
+@login_required(login_url='login_alumno')
+def no_aprobar_alumno(request, matricula):
+    if request.user.is_superuser:
+        alumno = get_object_or_404(Alumno, no_control=matricula)
+        alumno.estado_solicitud_id = 4
+        alumno.save()
+        return redirect('lista_alumnos')

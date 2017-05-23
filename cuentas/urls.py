@@ -17,4 +17,6 @@ urlpatterns = [
     url(r'^perfil/cambiar_pass/$', views.cambiar_pass, name='cambiar_pass'),
     url(r'^contacto/$', views.contacto, name='contacto'),
     url(r'^lista_alumnos/$', views.lista_alumnos, name='lista_alumnos'),
+    url(r'^lista_alumnos/aprobar/(?P<matricula>[0-9]+)$', views.aprobar_alumno, name='aprobar_alumno'),
+    url(r'^lista_alumnos/no_aprobar/(?P<matricula>[0-9]+)$', views.no_aprobar_alumno, name='no_aprobar_alumno'),
 ]
