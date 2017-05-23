@@ -36,12 +36,19 @@
                                      </b>
                                  </td>
                                  <td>
-                                    <a target="_blank" href="{{ MEDIA_URL }}{{ diccionario_documentos|get_comprobante_domicilio:alumno.no_control  }}">Comprobante Domicilio</a><br/>
-                                    <a target="_blank" href="{{ MEDIA_URL }}{{ diccionario_documentos|get_credencial_estudiante:alumno.no_control  }}">Credencial Estudiante</a><br/>
-                                    <a target="_blank" href="{{ MEDIA_URL }}{{ diccionario_documentos|get_kardex:alumno.no_control  }}">Kardex</a>
+                                     <!-- Dropdown Trigger -->
+                                      <a class='dropdown-button btn' href='#' data-activates='dropdown{{ forloop.counter }}'>Documentos</a>
+                                      <!-- Dropdown Structure -->
+                                      <ul id='dropdown{{ forloop.counter }}' class='dropdown-content'>
+                                        <li><a target="_blank" href="/media/{{ diccionario_documentos|get_comprobante_domicilio:alumno.no_control  }}">Comprobante Domicilio</a><br/></li>
+                                        <li class="divider"></li>
+                                        <li><a target="_blank" href="/media/{{ diccionario_documentos|get_credencial_estudiante:alumno.no_control  }}">Credencial Estudiante</a><br/></li>
+                                        <li class="divider"></li>
+                                        <li><a target="_blank" href="/media/{{ diccionario_documentos|get_kardex:alumno.no_control  }}">Kardex</a></li>
+                                      </ul>
                                  </td>
                                  <td>
-                                    <a href="#">APROBAR</a>
+                                   <a class="btn-floating"><i class="material-icons">thumb_up</i></a>
                                  </td>
                              {% else %}
                                  <td>
