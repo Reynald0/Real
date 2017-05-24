@@ -447,6 +447,7 @@ def reporte_aprobados(request): #Muestra una lista de todos los alumnos benefici
             lista_alumnos_aprobados = Alumno.objects.all().filter(estado_solicitud__id=3, carrera=carrera)
             for alumno in lista_alumnos_aprobados:
                 lista_alumnos.append(str(alumno))
+            if lista_alumnos: # Si hay algo en la lista se agrega
                 lista_carreras.append({carrera.carrera: lista_alumnos})
         return render(request, 'cuentas/reportes/reporte_aprobados.html', {'lista_carreras': lista_carreras})
     else:
