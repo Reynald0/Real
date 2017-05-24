@@ -122,7 +122,7 @@ def registro_alumno(request): #Se define la funcion registro_alumno el cual es e
             # Se guarda el objeto alumno
             alumno.save()
             #Enviar correo con nombre de usuario y contraseña
-            enviar_datos_al_correo(email, usuario, clave)
+            #enviar_datos_al_correo(email, usuario, clave)
             # Una vez creado se da por hecho que todo esta correcto y se manda a autenticar (login)
             # se crea un objeto log_alumno al cual se le asigna el usuario y contrasena obtenidos por el formulario (metodo post)
             # Como todo esta correcto no se hace una validacion (try - except )
