@@ -1,0 +1,67 @@
+{% extends 'components/base.html' %}
+{% load staticfiles %}
+{% load mis_filtros %}
+{% block encabezado %}
+	LISTA DE NO APROBADOS
+{% endblock encabezado%}
+{% block contenido %}
+    <ul class="collection with-header">
+      <li class="collection-header"><h4><b>Alumnos registrados:  </b> {{ total_alumnos }}</h4></li>
+      <li class="collection-item">
+          <div>
+              <b>Alumnos en proceso:  </b> {{ alumnos_en_proceso }}
+              <a href="{% url 'lista_alumnos_en_proceso' %}" class="secondary-content">
+                  <i class="material-icons">send</i>
+              </a>
+          </div>
+      </li>
+      <li class="collection-item">
+          <div>
+               <b>Alumnos en evaluación:    </b> {{ alumnos_en_espera }}
+              <a href="{% url 'lista_alumnos_en_evaluacion' %}" class="secondary-content">
+                  <i class="material-icons">send</i>
+              </a>
+          </div>
+      </li>
+      <li class="collection-item">
+          <div>
+                <b>Alumnos aprobados:    </b> {{ alumnos_aprobados }}
+              <a href="{% url 'lista_alumnos_aprobados' %}" class="secondary-content">
+                  <i class="material-icons">send</i>
+              </a>
+          </div>
+      </li>
+      <li class="collection-item">
+          <div>
+                <b>Alumnos no aprobados: </b> {{ alumnos_no_aprobados }}
+              <a href="{% url 'lista_alumnos_no_aprobados' %}" class="secondary-content">
+                  <i class="material-icons">send</i>
+              </a>
+          </div>
+      </li>
+    </ul>
+	<table class="highlight centered responsive-table">
+				 <thead>
+					 <th>No. Control</th>
+					 <th>Alumno</th>
+                     <th>Carrera</th>
+					 <th>Semestre</th>
+					 <th>Promedio</th>
+                     <th>Solicitud</th>
+				 </thead>
+				 <tbody>
+					 {% for alumno in alumnos %}
+					    <tr>
+                             <td>{{ alumno.no_control }}</td>
+                             <td>{{ alumno.nombre|title }} {{ alumno.apellido_paterno|title }} {{ alumno.apellido_materno|title }}</td>
+                             <td>{{ alumno.carrera }}</td>
+                             <td>{{ alumno.semestre }}</td>
+                             <td>{{ alumno.promedio }}</td>
+                             <td>{{ alumno.estado_solicitud }}</td>
+						 </tr>
+					 {% endfor %}
+				 </tbody>
+			 </table>
+		 </div>
+	 </div>
+{% endblock contenido %}

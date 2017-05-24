@@ -1,9 +1,10 @@
 {% extends 'components/base.html' %}
 {% load staticfiles %}
 {% block encabezado %}
-	REPORTE
+	REPORTE POR ESTADO DE SOLICITUD
 {% endblock encabezado%}
 {% block contenido %}
+    {% include 'cuentas/reportes/menu_filtro.html'%}
     <table class="highlight centered responsive-table">
 				 <thead>
 					 <th>Carrera</th>

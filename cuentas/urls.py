@@ -23,5 +23,6 @@ urlpatterns = [
     url(r'^lista_alumnos/no_aprobados/', views.lista_alumnos_no_aprobados, name='lista_alumnos_no_aprobados'),
     url(r'^lista_alumnos/aprobar/(?P<matricula>[0-9]+)$', views.aprobar_alumno, name='aprobar_alumno'),
     url(r'^lista_alumnos/no_aprobar/(?P<matricula>[0-9]+)$', views.no_aprobar_alumno, name='no_aprobar_alumno'),
-    url(r'^reporte_carreras/$', views.reporte_carreras, name='reporte_carreras'),
+    url(r'^reporte/estado_solicitud$', views.reporte_estado_solicitud, name='reporte_estado_solicitud'),
+    url(r'^reporte/aprobados$', views.reporte_aprobados, name='reporte_aprobados'),
 ]

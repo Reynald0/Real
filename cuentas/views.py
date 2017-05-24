@@ -46,7 +46,6 @@ def inicio(request): #Se define la funcion inicio el cual es el nombre de la vis
     return render(request, 'cuentas/inicio.html')
 
 def registro_alumno(request): #Se define la funcion registro_alumno el cual es el nombre de la vista a mostrar
-    show_msg = False
     mensaje = 'Registrado exitosamente, se ha enviado un correo con sus datos!'
     error = False
     if request.method == 'POST': #Si el formulario envia algo con el metodo POST
@@ -80,7 +79,7 @@ def registro_alumno(request): #Se define la funcion registro_alumno el cual es e
                 usuario_alumno.last_name = u"{0} {1}".format(apellido_materno.title(),apellido_paterno.title())
                 # Como ya se obtiene la variable email, se le asigna al atributo email del objeto usuario_alumno
                 usuario_alumno.email = email
-            except IntegrityError as e: #Si el usuario ya existe manda un mensaje
+            except IntegrityError: #Si el usuario ya existe manda un mensaje
                 mensaje = 'Ya existe ese usuario.'
                 error = True
                 # regresa el html registro con las variables error, mensaje y show_msg previamente declarados y asignados
@@ -123,9 +122,9 @@ def registro_alumno(request): #Se define la funcion registro_alumno el cual es e
             alumno.save()
             #Enviar correo con nombre de usuario y contraseña
             #enviar_datos_al_correo(email, usuario, clave)
-            # Una vez creado se da por hecho que todo esta correcto y se manda a autenticar (login)
+            # Una vez creado se da por hecho que  esta correcto y se manda a autenticar (login)
             # se crea un objeto log_alumno al cual se le asigna el usuario y contrasena obtenidos por el formulario (metodo post)
-            # Como todo esta correcto no se hace una validacion (try - except )
+            # Como esta correcto no se hace una validacion (try - except )
             log_alumno = authenticate(username=usuario.title(), password=clave)
             # Se usa el metodo login() que recibe como argumentos el request y el objeto a logear (log_alumno)
             login(request, log_alumno)
@@ -147,8 +146,9 @@ def contacto(request): #Se define la funcion contacto el cual es el nombre de la
     return render(request, 'cuentas/contacto.html')
 
 @login_required(login_url='login_alumno')
-def lista_alumnos(request, alumnos=Alumno.objects.order_by('no_control')): #Se define la funcion lista_alumnos el cual es el nombre de la vista a mostrar
+def lista_alumnos(request): #Se define la funcion lista_alumnos el cual es el nombre de la vista a mostrar
     if request.user.is_superuser: #Si el usuario es super usuario
+        alumnos = Alumno.objects.order_by('no_control')
         total_alumnos = len(Alumno.objects.all())
         alumnos_en_proceso = Alumno.objects.order_by('no_control').filter(estado_solicitud__id=1)
         alumnos_en_espera = Alumno.objects.order_by('no_control').filter(estado_solicitud__id=2)
@@ -164,7 +164,7 @@ def lista_alumnos(request, alumnos=Alumno.objects.order_by('no_control')): #Se d
                                               str(documento_kardex.url_documento)]
 
         # Regresa el html 'lista_alumnos' renderizado para ser visto y con las variables: alumnos, total_alumnos
-        return render(request, 'cuentas/lista_alumnos.html', {'alumnos': alumnos, 'total_alumnos': total_alumnos,
+        return render(request, 'cuentas/lista_alumnos/todos.html', {'alumnos': alumnos, 'total_alumnos': total_alumnos,
                                'alumnos_en_espera' : len(alumnos_en_espera), 'diccionario_documentos': diccionario_documentos,
                                'alumnos_en_proceso': len(alumnos_en_proceso), 'alumnos_aprobados': len(alumnos_aprobados),
                                'alumnos_no_aprobados': len(alumnos_no_aprobados)})
@@ -173,26 +173,85 @@ def lista_alumnos(request, alumnos=Alumno.objects.order_by('no_control')): #Se d
 
 @login_required(login_url='login_alumno')
 def lista_alumnos_en_proceso(request):
-    alumnos_en_proceso = Alumno.objects.filter(estado_solicitud__id=1).order_by('no_control')
-    return lista_alumnos(request, alumnos_en_proceso)
+    alumnos = Alumno.objects.all().filter(estado_solicitud__id=1).order_by('no_control')
+    if request.user.is_superuser:  # Si el usuario es super usuario
+        total_alumnos = len(Alumno.objects.all())
+        alumnos_en_proceso = Alumno.objects.order_by('no_control').filter(estado_solicitud__id=1)
+        alumnos_en_espera = Alumno.objects.order_by('no_control').filter(estado_solicitud__id=2)
+        alumnos_aprobados = Alumno.objects.order_by('no_control').filter(estado_solicitud__id=3)
+        alumnos_no_aprobados = Alumno.objects.order_by('no_control').filter(estado_solicitud__id=4)
+        # Regresa el html 'lista_alumnos' renderizado para ser visto y con las variables: alumnos, total_alumnos
+        return render(request, 'cuentas/lista_alumnos/en_proceso.html',
+                      {'alumnos': alumnos, 'total_alumnos': total_alumnos,
+                       'alumnos_en_espera': len(alumnos_en_espera),
+                       'alumnos_en_proceso': len(alumnos_en_proceso),
+                       'alumnos_aprobados': len(alumnos_aprobados),
+                       'alumnos_no_aprobados': len(alumnos_no_aprobados)})
 
 @login_required(login_url='login_alumno')
 def lista_alumnos_en_evaluacion(request):
-    alumnos_en_evaluacion = Alumno.objects.filter(estado_solicitud__id=2).order_by('no_control')
-    return lista_alumnos(request, alumnos_en_evaluacion)
+    if request.user.is_superuser:  # Si el usuario es super usuario
+        alumnos = Alumno.objects.all().filter(estado_solicitud__id=2).order_by('no_control')
+        total_alumnos = len(Alumno.objects.all())
+        alumnos_en_proceso = Alumno.objects.order_by('no_control').filter(estado_solicitud__id=1)
+        alumnos_en_espera = Alumno.objects.order_by('no_control').filter(estado_solicitud__id=2)
+        alumnos_aprobados = Alumno.objects.order_by('no_control').filter(estado_solicitud__id=3)
+        alumnos_no_aprobados = Alumno.objects.order_by('no_control').filter(estado_solicitud__id=4)
+        diccionario_documentos = {}
+        for alumno in alumnos_en_espera:
+            documento_comprobante_domicilio = ComprobanteDomicilio.objects.get(alumno=alumno)
+            documento_credencial_estudiante = CredencialEstudiante.objects.get(alumno=alumno)
+            documento_kardex = Kardex.objects.get(alumno=alumno)
+            diccionario_documentos[alumno.no_control] = [str(documento_comprobante_domicilio.url_documento),
+                                                         str(documento_credencial_estudiante.url_documento),
+                                                         str(documento_kardex.url_documento)]
+
+        # Regresa el html 'lista_alumnos' renderizado para ser visto y con las variables: alumnos, total_alumnos
+        return render(request, 'cuentas/lista_alumnos/todos.html',
+                      {'alumnos': alumnos, 'total_alumnos': total_alumnos,
+                       'alumnos_en_espera': len(alumnos_en_espera),
+                       'diccionario_documentos': diccionario_documentos,
+                       'alumnos_en_proceso': len(alumnos_en_proceso),
+                       'alumnos_aprobados': len(alumnos_aprobados),
+                       'alumnos_no_aprobados': len(alumnos_no_aprobados)})
 
 @login_required(login_url='login_alumno')
 def lista_alumnos_aprobados(request):
-    alumnos_aprobados = Alumno.objects.filter(estado_solicitud__id=3).order_by('no_control')
-    return lista_alumnos(request, alumnos_aprobados)
+    if request.user.is_superuser:  # Si el usuario es super usuario
+        alumnos = Alumno.objects.all().filter(estado_solicitud__id=3).order_by('no_control')
+        if request.user.is_superuser:  # Si el usuario es super usuario
+            total_alumnos = len(Alumno.objects.all())
+            alumnos_en_proceso = Alumno.objects.order_by('no_control').filter(estado_solicitud__id=1)
+            alumnos_en_espera = Alumno.objects.order_by('no_control').filter(estado_solicitud__id=2)
+            alumnos_aprobados = Alumno.objects.order_by('no_control').filter(estado_solicitud__id=3)
+            alumnos_no_aprobados = Alumno.objects.order_by('no_control').filter(estado_solicitud__id=4)
+            # Regresa el html 'lista_alumnos' renderizado para ser visto y con las variables: alumnos, total_alumnos
+            return render(request, 'cuentas/lista_alumnos/aprobados.html',
+                          {'alumnos': alumnos, 'total_alumnos': total_alumnos,
+                           'alumnos_en_espera': len(alumnos_en_espera),
+                           'alumnos_en_proceso': len(alumnos_en_proceso),
+                           'alumnos_aprobados': len(alumnos_aprobados),
+                           'alumnos_no_aprobados': len(alumnos_no_aprobados)})
 
 @login_required(login_url='login_alumno')
 def lista_alumnos_no_aprobados(request):
-    alumnos_no_aprobados = Alumno.objects.filter(estado_solicitud__id=4).order_by('no_control')
-    return lista_alumnos(request, alumnos_no_aprobados)
+    if request.user.is_superuser:  # Si el usuario es super usuario
+        alumnos = Alumno.objects.all().filter(estado_solicitud__id=3).order_by('no_control')
+        if request.user.is_superuser:  # Si el usuario es super usuario
+            total_alumnos = len(Alumno.objects.all())
+            alumnos_en_proceso = Alumno.objects.order_by('no_control').filter(estado_solicitud__id=1)
+            alumnos_en_espera = Alumno.objects.order_by('no_control').filter(estado_solicitud__id=2)
+            alumnos_aprobados = Alumno.objects.order_by('no_control').filter(estado_solicitud__id=3)
+            alumnos_no_aprobados = Alumno.objects.order_by('no_control').filter(estado_solicitud__id=4)
+            # Regresa el html 'lista_alumnos' renderizado para ser visto y con las variables: alumnos, total_alumnos
+            return render(request, 'cuentas/lista_alumnos/no_aprobados.html',
+                          {'alumnos': alumnos, 'total_alumnos': total_alumnos,
+                           'alumnos_en_espera': len(alumnos_en_espera),
+                           'alumnos_en_proceso': len(alumnos_en_proceso),
+                           'alumnos_aprobados': len(alumnos_aprobados),
+                           'alumnos_no_aprobados': len(alumnos_no_aprobados)})
 
 def login_alumno(request): #Se define la funcion login_alumno el cual es el nombre de la vista a mostrar
-    error = False
     if request.method == 'POST': #Si el formulario envia algo con el metodo POST
         form = LogAlumno(request.POST) #Se crea el objeto form, a este objeto se le asigna el modelo LogAlumno
         if form.is_valid(): #Si el formulario es valido
@@ -288,7 +347,7 @@ def cambiar_pass(request):
             clave_nueva = cleaned_data.get('clave_nueva')
             confirmar_clave_nueva = cleaned_data.get('confirmar_clave_nueva')
             if usuario.check_password(clave_actual):
-                if (clave_nueva != confirmar_clave_nueva): #Si las clave (ingresada dos veces no es IGUAL)
+                if clave_nueva != confirmar_clave_nueva: #Si las clave (ingresada dos veces no es IGUAL)
                     clave_incorrecta = True
                     mensaje = "La clave nueva y su confirmación no son iguales"
                     return render(request, 'cuentas/cambiar_pass.html',
@@ -326,11 +385,11 @@ def solicitar_beca(request):
     except ObjectDoesNotExist:
         documento_kardex = None
 
-    if (documento_comprobante_domicilio == None):
+    if documento_comprobante_domicilio is None:
         return perfil_alumno(request,False, True)
-    elif (documento_credencial_estudiante == None):
+    elif documento_credencial_estudiante is None:
         return perfil_alumno(request,False, True)
-    elif (documento_kardex == None):
+    elif documento_kardex is None:
         return perfil_alumno(request,False, True)
 
     usuario = get_object_or_404(User, id=request.user.id)
@@ -361,7 +420,7 @@ def no_aprobar_alumno(request, matricula):
         return redirect('perfil_alumno')
 
 @login_required(login_url='login_alumno')
-def reporte_carreras(request):
+def reporte_estado_solicitud(request):
     if request.user.is_superuser:
         carreras = Carrera.objects.all().order_by('id')
         estados_solicitud = Estado_Solicitud.objects.all().order_by('id')
@@ -372,6 +431,23 @@ def reporte_carreras(request):
                 poblacion = len(Alumno.objects.all().filter(carrera=carrera, estado_solicitud=estado))
                 lista_estados.append(poblacion)
             lista_carreras.append({carrera.carrera: lista_estados})
-        return render(request, 'cuentas/reporte.html', {'lista_carreras': lista_carreras})
+        return render(request, "cuentas/reportes/reporte_estado_solicitud.html", {'lista_carreras': lista_carreras})
+    else:
+        return redirect('perfil_alumno')
+
+
+@login_required(login_url='login_alumno')
+def reporte_aprobados(request): #Muestra una lista de todos los alumnos beneficiados por carrera
+    if request.user.is_superuser:
+        carreras = Carrera.objects.all().order_by('id')
+        lista_carreras = []
+        for carrera in carreras:
+            lista_alumnos = []
+            # estado_solicitud__id 3 es APROBADO
+            lista_alumnos_aprobados = Alumno.objects.all().filter(estado_solicitud__id=3, carrera=carrera)
+            for alumno in lista_alumnos_aprobados:
+                lista_alumnos.append(str(alumno))
+                lista_carreras.append({carrera.carrera: lista_alumnos})
+        return render(request, 'cuentas/reportes/reporte_aprobados.html', {'lista_carreras': lista_carreras})
     else:
         return redirect('perfil_alumno')
