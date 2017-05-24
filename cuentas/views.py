@@ -10,7 +10,7 @@ from django.template import Context
 from django.template.loader import get_template
 from documentos.models import ComprobanteDomicilio, CredencialEstudiante, Kardex
 from .forms import RegistroAlumno, LogAlumno, AlumnoForm, CambiarPassForm
-from .models import Alumno
+from .models import Alumno, Carrera, Estado_Solicitud
 from datetime import date
 
 
@@ -357,5 +357,21 @@ def no_aprobar_alumno(request, matricula):
         alumno.estado_solicitud_id = 4
         alumno.save()
         return redirect('lista_alumnos')
+    else:
+        return redirect('perfil_alumno')
+
+@login_required(login_url='login_alumno')
+def reporte_carreras(request):
+    if request.user.is_superuser:
+        carreras = Carrera.objects.all().order_by('id')
+        estados_solicitud = Estado_Solicitud.objects.all().order_by('id')
+        lista_carreras = []
+        for carrera in carreras:
+            lista_estados = []
+            for estado in estados_solicitud:
+                poblacion = len(Alumno.objects.all().filter(carrera=carrera, estado_solicitud=estado))
+                lista_estados.append(poblacion)
+            lista_carreras.append({carrera.carrera: lista_estados})
+        return render(request, 'cuentas/reporte.html', {'lista_carreras': lista_carreras})
     else:
         return redirect('perfil_alumno')

@@ -1,0 +1,15 @@
+{% extends 'components/base.html' %}
+{% load staticfiles %}
+{% block encabezado %}
+	REPORTE
+{% endblock encabezado%}
+{% block contenido %}
+	{% for carrera in lista_carreras %}
+        {% for llave, valor in carrera.items %}
+            <b>{{ llave }}</b><br/>
+            {% for indice in valor %}
+                {{ indice }}
+            {% endfor %}<br/><br/>
+        {% endfor %}
+    {% endfor %}
+{% endblock contenido %}
