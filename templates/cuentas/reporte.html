@@ -4,12 +4,25 @@
 	REPORTE
 {% endblock encabezado%}
 {% block contenido %}
-	{% for carrera in lista_carreras %}
-        {% for llave, valor in carrera.items %}
-            <b>{{ llave }}</b><br/>
-            {% for indice in valor %}
-                {{ indice }}
-            {% endfor %}<br/><br/>
-        {% endfor %}
-    {% endfor %}
+    <table class="highlight centered responsive-table">
+				 <thead>
+					 <th>Carrera</th>
+					 <th>Solicitudes en proceso</th>
+                     <th>Solicitudes en evaluación</th>
+					 <th>Solicitudes aprobadas</th>
+					 <th>Solicitudes no aprobadas</th>
+				 </thead>
+				 <tbody>
+                 {% for carrera in lista_carreras %}
+                    {% for llave, valor in carrera.items %}
+                        <tr>
+                            <td><b>{{ llave }}</b></td>
+                            {% for indice in valor %}
+                                <td>{{ indice }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                 {% endfor %}
+				 </tbody>
+			 </table>
 {% endblock contenido %}
