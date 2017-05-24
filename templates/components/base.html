@@ -5,7 +5,8 @@
 		<meta charset="UTF-8">
 		<title>REAL</title>
     <!--Import Google Icon Font-->
-    <link type="text/css" rel="stylesheet" href="{% static 'iconfont/material-icons.css' %}">
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> <!-- PRODUCCION -->
+    <!--link type="text/css" rel="stylesheet" href="{#% static 'iconfont/material-icons.css' %#}"--> <!-- LOCAL -->
     <!--Import materialize.css-->
     <link type="text/css" rel="stylesheet" href="{% static 'css/materialize.min.css' %}"  media="screen,projection"/>
     <!--Import custom CSS for footer-->
@@ -31,7 +32,8 @@
     </main>
 	  {% include 'components/footer.html'%}
 		<!--Import jQuery before materialize.js-->
-		<script type="text/javascript" src="{% static 'js/jquery-2.1.1.min.js' %}"></script>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script> <!-- PRODUCCION -->
+		<!--script type="text/javascript" src="{#% static 'js/jquery-2.1.1.min.js' %#}"></script--> <!-- LOCAL -->
 		<script type="text/javascript" src="{% static 'js/materialize.min.js' %}"></script>
 		<!-- Custom JQuery-->
         <script type="text/javascript">
