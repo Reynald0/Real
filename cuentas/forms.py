@@ -69,7 +69,7 @@ class LogAlumno(forms.Form):
         #Comprueba que exista un username en la base de datos
         usuario = self.cleaned_data['usuario']
         if not User.objects.filter(username=usuario.title()):
-            raise forms.ValidationError('El nombre de usuario no existe!')
+            raise forms.ValidationError('El nombre de usuario no existe, debe registrarse para poder iniciar sesion')
         return usuario
 
 class AlumnoForm(forms.ModelForm):

@@ -8,4 +8,7 @@
 		<div class="card-panel yellow lighten-1"><i class="material-icons left">error</i><b>Alerta!! Contraseña incorrecta.</b></div>
 	{% endif %}
 	{% include 'snippets/form.html' %}
+    <div class="row">
+    <p class="center">¿Aún no posees una cuenta?<a href="{% url 'registro'%}"> Registrate aquí</a></p>
+    </div>
 {% endblock contenido %}
