@@ -6,7 +6,7 @@ from .models import Alumno, Carrera
 
 class RegistroAlumno(forms.Form):
     usuario     = forms.CharField(min_length=5,widget=forms.TextInput(attrs={'id': 'Usuario'}))
-    clave       = forms.CharField(min_length=5, widget=forms.PasswordInput(attrs={'id': 'Clave'}))
+    clave       = forms.CharField(min_length=5, widget=forms.PasswordInput(attrs={'id': 'Clave', 'placeholder': 'Contraseña'}))
     email       = forms.EmailField(widget=forms.EmailInput(attrs={'id': 'Email', 'type': 'email', 'class':'validate'}))
     no_control  = forms.IntegerField(widget=forms.NumberInput(attrs={'id': 'No control', 'length' : '8', 'class':'validate'}))
     nombre      = forms.CharField(widget=forms.TextInput(attrs={'id': 'Nombre'}))

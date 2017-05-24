@@ -46,13 +46,6 @@
         <script type="text/javascript"> //Protecciones
             document.oncontextmenu = function(){return false;}; //proteccion contra clic derecho
             document.onselectstart = function(){return false;}; //proteccion contra seleccion
-            document.onkeydown =  function() { //proteccion contra CONTROL + S
-               var key = event.keyCode || event.charCode || e.which;
-               if(key==83)
-               {
-                   return false;
-               }
-            }
         </script>
     {% block scripts %}
     {% endblock scripts %}
