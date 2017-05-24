@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 -*-
+from datetime import date
 from django import forms
 from django.contrib.auth.models import User
 from .models import Alumno, Carrera
@@ -12,7 +13,7 @@ class RegistroAlumno(forms.Form):
     apellido_paterno = forms.CharField(widget=forms.TextInput(attrs={'id': 'Apellido'}))
     apellido_materno = forms.CharField(widget=forms.TextInput(attrs={'id': 'Apellido'}))
     fecha_nac   = forms.DateField(widget=forms.DateInput(attrs={'type': 'date', 'class': 'datepicker'}))
-    carrera     = forms.ModelChoiceField(queryset=Carrera.objects.all())
+    carrera     = forms.ModelChoiceField(queryset=Carrera.objects.all(), initial=1)
     promedio    = forms.FloatField(widget=forms.NumberInput(attrs={'id': 'Promedio'}))
     semestre    = forms.IntegerField(widget=forms.NumberInput(attrs={'id': 'Semestre'}))
 
@@ -51,6 +52,14 @@ class RegistroAlumno(forms.Form):
         if promedio > 100.0:
             raise forms.ValidationError('Promedio en escala de 1 a 100')
         return promedio
+
+    def clean_fecha_nac(self):
+        #Comprueba que el promedio no sea mayor a 100
+        fecha_nac = self.cleaned_data['fecha_nac']
+        anio_nacimiento = int(fecha_nac.year)
+        if (int(date.today().year) - anio_nacimiento) < 17:
+            raise forms.ValidationError(u'No se pueden registrar menores de 17 años')
+        return fecha_nac
 
 class LogAlumno(forms.Form):
     usuario = forms.CharField(min_length=5,widget=forms.TextInput(attrs={'id': 'Usuario'}))
