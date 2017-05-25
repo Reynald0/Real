@@ -46,7 +46,7 @@ def inicio(request): #Se define la funcion inicio el cual es el nombre de la vis
     return render(request, 'cuentas/inicio.html')
 
 def registro_alumno(request): #Se define la funcion registro_alumno el cual es el nombre de la vista a mostrar
-    mensaje = 'Registrado exitosamente, se ha enviado un correo con sus datos!'
+    mensaje = 'Registrado exitosamente, ahora puede subir sus documentos desde su perfil!'
     error = False
     if request.method == 'POST': #Si el formulario envia algo con el metodo POST
         form = RegistroAlumno(request.POST) #Se crea el objeto form, a este objeto se le asigna el modelo RegistroAlumno
