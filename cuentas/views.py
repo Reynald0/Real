@@ -207,7 +207,7 @@ def lista_alumnos_en_evaluacion(request):
                                                          str(documento_kardex.url_documento)]
 
         # Regresa el html 'lista_alumnos' renderizado para ser visto y con las variables: alumnos, total_alumnos
-        return render(request, 'cuentas/lista_alumnos/todos.html',
+        return render(request, 'cuentas/lista_alumnos/en_evaluacion.html',
                       {'alumnos': alumnos, 'total_alumnos': total_alumnos,
                        'alumnos_en_espera': len(alumnos_en_espera),
                        'diccionario_documentos': diccionario_documentos,
@@ -405,7 +405,7 @@ def aprobar_alumno(request, matricula):
         alumno = get_object_or_404(Alumno, no_control=matricula)
         alumno.estado_solicitud_id = 3
         alumno.save()
-        return redirect('lista_alumnos')
+        return redirect('lista_alumnos_en_evaluacion')
     else:
         return redirect('perfil_alumno')
 
@@ -415,7 +415,7 @@ def no_aprobar_alumno(request, matricula):
         alumno = get_object_or_404(Alumno, no_control=matricula)
         alumno.estado_solicitud_id = 4
         alumno.save()
-        return redirect('lista_alumnos')
+        return redirect('lista_alumnos_en_evaluacion')
     else:
         return redirect('perfil_alumno')
 
