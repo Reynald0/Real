@@ -290,7 +290,7 @@ def logout_alumno(request): #Se define la funcion logout_alumno el cual es el no
     return redirect('inicio')
 
 @login_required(login_url='login_alumno')
-def perfil_alumno(request, documento_subido=False, falta_documento=False): #Se define la funcion perfil_alumno el cual es el nombre de la vista a mostrar
+def perfil_alumno(request, documento_subido=False, falta_documento=False, promedio_menor_a_85=False): #Se define la funcion perfil_alumno el cual es el nombre de la vista a mostrar
     try:
         usuario_alumno = Alumno.objects.get(user_id=request.user.id)
     except ObjectDoesNotExist:
@@ -318,7 +318,7 @@ def perfil_alumno(request, documento_subido=False, falta_documento=False): #Se d
     return render(request, 'cuentas/perfil.html',
                   {'alumno' : alumno_user , 'edad': edad,'comprobante_de_domicilio' : comprobante_de_domicilio,
                    'credencial_de_estudiante' : credencial_de_estudiante, 'kardex' : kardex, 'documento_subido' : documento_subido,
-                   'falta_documento' : falta_documento})
+                   'falta_documento' : falta_documento, 'promedio_menor_a_85': promedio_menor_a_85})
 
 @login_required(login_url='login_alumno')
 def editar_perfil_alumno(request):
@@ -385,8 +385,11 @@ def solicitar_beca(request):
     except ObjectDoesNotExist:
         documento_kardex = None
 
+    if alumno.promedio < 85.0:
+        return perfil_alumno(request, False, False, True)
+
     if documento_comprobante_domicilio is None:
-        return perfil_alumno(request,False, True)
+        return perfil_alumno(request,False, True,True)
     elif documento_credencial_estudiante is None:
         return perfil_alumno(request,False, True)
     elif documento_kardex is None:

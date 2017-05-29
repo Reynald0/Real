@@ -13,6 +13,9 @@
     {% if falta_documento %}
         <div class="card-panel amber darken-1"><i class="material-icons left">not_interested</i><b>Debe subir todos los documentos antes de solicitar beca!</b></div>
     {% endif %}
+    {% if promedio_menor_a_85 %}
+        <div class="card-panel amber darken-1"><i class="material-icons left">not_interested</i><b>El promedio mímino requerido para solicitar la beca es 85</b></div>
+    {% endif %}
 	{% if user.is_superuser %}
 		<div class="card-panel hoverable center yellow">
 			<p class="flow-text">
